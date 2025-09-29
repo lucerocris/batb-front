@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Barlow', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -130,3 +130,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.sans, body, input, button, textarea {
+  font-family: 'Barlow', system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.serif, h1, h2, h3, h4, h5, h6, blockquote {
+  font-family: 'IBM Plex Sans', serif;
+}
+
