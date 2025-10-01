@@ -1,6 +1,7 @@
 import landingBg from '../../../assets/storefront_assets/landing_bg.jpg';
 import { MenuIcon, MoveDown } from 'lucide-react';
 import { motion } from 'framer-motion';
+import browseBg from '../../../assets/storefront_assets/patterns.png';
 
 
 export default function Landing() {
@@ -47,8 +48,7 @@ export default function Landing() {
                 <p>CHECK IT OUT</p>
                 <MoveDown className="h-5 w-5 ml-2"/>
             </div>
-        </div>
-        
+        </div>     
         <div className='w-full h-[100vh] bg-white flex flex-col items-center py-10'>
             <div className='w-full h-auto flex flex-col justify-center items-center gap-5'>
                 <h1 className='text-5xl sans font-bold'>WHO ARE THE BOYS AT THE BACK?</h1>
@@ -81,11 +81,21 @@ export default function Landing() {
                 <div className='justify-center items-center flex'>
                     <img src="/src/assets/storefront_assets/brandlogos/.png" alt="NEXT" />
                 </div>
-            </div>
+            </div>  
         </div>
-
-        
-                 
+        <div className='relative w-full h-[100vh] flex flex-col items-center'
+        style={{ backgroundImage: `url(${browseBg})`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
+            <div className='w-full h-full bg-black opacity-85 absolute ponter-events-none'></div>
+            <div className='relative w-full h-auto flex items-center'>
+                <h1 className='text-7xl text-white font-bold px-12 py-10'>
+                    BROWSE
+                </h1>
+                <p className='text-2xl font-extralight'
+                   style={{color: 'rgb(232, 204, 72)'}}>
+                    It's as simple as that.
+                </p>
+            </div>
+        </div> 
         </>
     );
 }
