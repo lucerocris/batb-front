@@ -1,5 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "swiper/css";
+
+/* Smooth scroll snap easing */
+.snap-container {
+  scroll-behavior: smooth;
+  transition: scroll 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 @custom-variant dark (&:is(.dark *));
 
