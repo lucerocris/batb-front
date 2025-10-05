@@ -1,8 +1,10 @@
 import BrandLogos from './BrandLogos';
+import Header from './HeaderStatic';
 
 export default function AboutSection() {
     return (
-        <div className='w-full h-[100vh] bg-white flex flex-col items-center py-10'>
+        <div className='w-full h-[100vh] bg-white flex flex-col items-center py-20'>
+            <Header color="black" />
             <div className='w-full h-auto flex flex-col justify-center items-center gap-5'>
                 <h1 className='text-5xl sans font-bold'>WHO ARE THE BOYS AT THE BACK?</h1>
                 <p className='text-lg text-center'>

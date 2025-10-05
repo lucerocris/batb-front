@@ -1,6 +1,6 @@
 import { MoveDown } from 'lucide-react';
 import landingBg from '../../assets/storefront_assets/landing_bg.jpg';
-import Header from './Header';
+import Header from './HeaderStatic';
 
 export default function HeroSection() {
     return (
@@ -10,7 +10,7 @@ export default function HeroSection() {
         >           
             <div className="absolute inset-0 bg-black opacity-80 pointer-events-none"></div>   
             
-            <Header />
+            <Header color="white"/>
 
             <div className='relative h-[90vh] w-full flex'>
                 <div className='w-1/2 flex flex-row-reverse items-center pr-10'>

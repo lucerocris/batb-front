@@ -1,6 +1,4 @@
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import Marquee from 'react-fast-marquee';
 
 interface BrandLogo {
     src: string;
@@ -8,63 +6,48 @@ interface BrandLogo {
 }
 
 const brandLogos: BrandLogo[] = [
-    { src: "/src/assets/storefront_assets/brandlogos/DKNY logo.png", alt: "DKNY" },
-    { src: "/src/assets/storefront_assets/brandlogos/H&M logo.png", alt: "H&M" },
-    { src: "/src/assets/storefront_assets/brandlogos/LEVI logo.png", alt: "LEVI" },
-    { src: "/src/assets/storefront_assets/brandlogos/UNIQLO logo.png", alt: "UNIQLO" },
-    { src: "/src/assets/storefront_assets/brandlogos/ZARA logo.png", alt: "ZARA" },
-    { src: "/src/assets/storefront_assets/brandlogos/TH logo.png", alt: "TH" },
-    { src: "/src/assets/storefront_assets/brandlogos/.png", alt: "NBA" },
-    { src: "/src/assets/storefront_assets/brandlogos/.png", alt: "NEXT" },
+    { src: "/src/assets/storefront_assets/brandlogos/DKNY.svg", alt: "DKNY" },
+    { src: "/src/assets/storefront_assets/brandlogos/HM.svg", alt: "H&M" },
+    { src: "/src/assets/storefront_assets/brandlogos/LEVI.svg", alt: "LEVI" },
+    { src: "/src/assets/storefront_assets/brandlogos/UNIQLO.svg", alt: "UNIQLO" },
+    { src: "/src/assets/storefront_assets/brandlogos/ZARA.svg", alt: "ZARA" },
+    { src: "/src/assets/storefront_assets/brandlogos/TH.svg", alt: "TH" },
+    { src: "/src/assets/storefront_assets/brandlogos/NBA.svg", alt: "NBA" },
+    { src: "/src/assets/storefront_assets/brandlogos/NEXT.svg", alt: "NEXT" },
 ];
 
 export default function BrandLogos() {
-    const settings = {
-        infinite: true,
-        speed: 2000,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        cssEase: 'ease-in-out',
-        pauseOnHover: true,
-        arrows: false,
-        dots: false,
-        centerMode: true,
-        centerPadding: '0px',
-        variableWidth: false,
-        lazyLoad: 'ondemand' as const
-    };
-
     return (
         <div className='w-full h-full flex items-center justify-center p-4'>
-            <div className='w-full'>
-                <Slider {...settings}>
-                    {brandLogos.map((logo, index) => (
-                        <div key={index} className='px-4'>
-                            <div className='flex justify-center items-center h-60'>
-                                <img 
-                                    src={logo.src} 
-                                    alt={logo.alt} 
-                                    className="h-auto w-auto object-contain hover:scale-110 transition-transform duration-300"
-                                    style={{ 
-                                        maxHeight: '200px', 
-                                        maxWidth: '250px',
-                                        filter: 'grayscale(100%)',
-                                        transition: 'all 0.3s ease'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        (e.target as HTMLImageElement).style.filter = 'grayscale(0%)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        (e.target as HTMLImageElement).style.filter = 'grayscale(100%)';
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </Slider>
-            </div>
+            <Marquee 
+                gradient={false} 
+                speed={200} 
+                pauseOnHover={true}>
+                {brandLogos.map((logo, index) => (
+                    <div key={index} className='px-1 h-100 w-auto flex items-center justify-center overflow-visible ml-20' >
+                        <img
+                            src={logo.src}
+                            alt={logo.alt}
+                            className="h-1/2 w-auto object-contain"
+                            style={{
+                                maxWidth: '250px',
+                                filter: 'grayscale(100%)',
+                                transform: 'scale(1)',
+                                transition: 'transform 300ms ease, filter 300ms ease',
+                                transformOrigin: 'center center'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.filter = 'grayscale(0%)';
+                                e.currentTarget.style.transform = 'scale(1.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.filter = 'grayscale(100%)';
+                                e.currentTarget.style.transform = 'scale(1)';
+                            }}
+                        />
+                    </div>
+                ))}
+            </Marquee>
         </div>
     );
 }

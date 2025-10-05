@@ -11,16 +11,13 @@ export default function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            const heroSectionHeight = window.innerHeight; // Assuming hero section is full viewport height
+            const heroSectionHeight = window.innerHeight; 
             
-            // Check if we're still in the hero section
             setIsInHeroSection(currentScrollY < heroSectionHeight - 100);
             
-            // Show header when scrolling up or at the top
             if (currentScrollY < lastScrollY || currentScrollY < 10) {
                 setIsVisible(true);
             } else {
-                // Hide header when scrolling down
                 setIsVisible(false);
             }
             
@@ -72,16 +69,16 @@ export default function Header() {
                 <SheetContent side="right" className="w-80 p-0 bg-black bg-opacity-80 border-none backdrop-blur-lg [&>button]:hidden">
                     <div className="p-6">
                         <nav className="space-y-4">
-                            <a href="#" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
+                            <a href="/home" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
                                 HOME
                             </a>
-                            <a href="#" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
+                            <a href="/browse" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
                                 BROWSE
                             </a>
-                            <a href="#" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
+                            <a href="/cart" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
                                 CART
                             </a>
-                            <a href="#" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
+                            <a href="/contact-us" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
                                 CONTACT
                             </a>
                         </nav>
