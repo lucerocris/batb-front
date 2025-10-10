@@ -18,17 +18,17 @@ const brandLogos: BrandLogo[] = [
 
 export default function BrandLogos() {
     return (
-        <div className='w-full h-full flex items-center justify-center p-4'>
+        <div className='w-full h-full flex items-center justify-center p-4 '>
             <Marquee 
                 gradient={false} 
                 speed={200} 
                 pauseOnHover={true}>
                 {brandLogos.map((logo, index) => (
-                    <div key={index} className='px-1 h-100 w-auto flex items-center justify-center overflow-visible ml-20' >
+                    <div key={index} className='px-1 h-75 w-auto flex items-center justify-center overflow-visible ml-20 ' >
                         <img
                             src={logo.src}
                             alt={logo.alt}
-                            className="h-1/2 w-auto object-contain"
+                            className="h-3/4 w-auto object-contain "
                             style={{
                                 maxWidth: '250px',
                                 filter: 'grayscale(100%)',

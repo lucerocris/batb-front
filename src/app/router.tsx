@@ -3,6 +3,7 @@ import Dashboard from "@/app/pages/admin/Dashboard.tsx";
 import Landing from "@/app/pages/storefront/Landing.tsx";
 import AdminLayout from "@/app/layout/AdminLayout.tsx";
 import Browse from './pages/storefront/Browse';
+import Test from './pages/storefront/test';
 
 export default function AppRouter() {
     return (
@@ -28,6 +29,10 @@ export default function AppRouter() {
                     <Browse />
                 }
             />
+            <Route
+                path='/test'
+                element={<Test />}
+            />  
         </Routes>
     );
 }

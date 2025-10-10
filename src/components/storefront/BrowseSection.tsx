@@ -9,11 +9,11 @@ export default function BrowseSection() {
             <div className='w-full h-full bg-black opacity-85 absolute pointer-events-none'></div>
             <div className='w-full h-full relative py-20'>
                 <Header color="white"/>
-                <div className='w-full h-auto flex items-center'>
-                    <h1 className='text-7xl text-white font-bold px-12 py-2'>
+                <div className='w-full h-auto flex items-center px-7 py-5'>
+                    <h1 className='text-7xl text-white font-bold'>
                         BROWSE
                     </h1>
-                    <p className='text-2xl font-extralight'
+                    <p className='text-2xl font-extralight ml-auto'
                     style={{color: 'rgb(232, 204, 72)'}}>
                         It's as simple as that.
                     </p>

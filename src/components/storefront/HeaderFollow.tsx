@@ -11,7 +11,7 @@ export default function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            const heroSectionHeight = window.innerHeight; 
+            const heroSectionHeight = window.innerHeight / 2; 
             
             setIsInHeroSection(currentScrollY < heroSectionHeight - 100);
             
