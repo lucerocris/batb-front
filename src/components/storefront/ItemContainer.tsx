@@ -1,9 +1,17 @@
 import testImage from '../../assets/storefront_assets/testimage.jpg';
 import uniqloLogo from '../../assets/storefront_assets/brandlogos/UNIQLO.svg';
 
-export default function ItemContainer() {   
+interface ItemContainerProps {
+    onClick?: () => void;
+}
+
+export default function ItemContainer({ onClick }: ItemContainerProps) {   
     return (
-        <div style={{ perspective: 5000 }} className='w-full h-[100vh] flex flex-col items-center py-20 transition-all duration-300 hover:scale-90'>
+        <div 
+            style={{ perspective: 5000 }} 
+            className='h-auto w-auto flex flex-col items-center transition-all duration-300 hover:scale-90 cursor-pointer'
+            onClick={onClick}
+        >
             <div className="w-75 h-100 flex-col relative transform-gpu transition-transform duration-500 origin-center will-change-transform hover:[transform:perspective(1000px)_rotateX(6deg)_rotateY(2deg)_scale3d(1.06,1.06,1)]">
                 <div className="absolute inset-0  bg-black opacity-60 backdrop-blur-lg"></div>
                 <img src={testImage} alt="testimage"
@@ -17,7 +25,7 @@ export default function ItemContainer() {
                         <img src={uniqloLogo} alt="uniqlo" className='ml-auto h-8' />
                     </div>
                     <div className='w-full h-1/2 flex items-center'>
-                        <h1 className='pl-2 text-white text-md font-extrabold'>P 550.00</h1>
+                        <h1 className='pl-2 text-white text-lg font-extrabold'>P 550.00</h1>
                         <button className='sans text-sm ml-auto bg-white text-black font-bold px-3 py-1 hover:bg-black hover:text-white transition-all duration-300 cursor-pointer'>ADD TO CART</button>
                     </div>
                 </div>

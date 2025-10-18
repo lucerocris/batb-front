@@ -1,15 +1,26 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../../components/storefront/HeaderFollow';
 import Lenis from 'lenis';
 import ItemContainer from '../../../components/storefront/ItemContainer';
+import ProductModal from '../../../components/storefront/ProductModal';
 
 export default function Browse(){
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     useEffect(() => {
         const lenis = new Lenis({
             autoRaf: true,
         });
 
     }, []);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <>
@@ -35,17 +46,32 @@ export default function Browse(){
                 </div>
             </div>
 
-            <div className='w-full h-[150vh] bg-white flex flex-col items-center py-5 px-10'>
+            <div className='w-full h-auto bg-white flex flex-col items-center py-5 px-10'>
                 <h2 className='text-4xl font-bold mb-4'>Browse Our Collection</h2>
                 <p className='text-lg text-gray-600 mb-8'>Discover the latest trends and styles.</p>
-                <div className='grid grid-cols-5 gap-6'>
-                    <ItemContainer />
-                    <ItemContainer />
-                    <ItemContainer />
-                    <ItemContainer />
-                    <ItemContainer />
+                <div className='h-auto grid grid-cols-5 gap-10'>
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
+                    <ItemContainer onClick={handleOpenModal} />
                 </div>
             </div>
+
+            <div className='h-[5vh] w-full bg-black'>
+                 
+            </div>
+
+            <ProductModal isOpen={isModalOpen} onClose={handleCloseModal} />
         </>
     );
 }
