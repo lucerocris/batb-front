@@ -27,27 +27,27 @@ interface NavigationType {
 const navigation: NavigationType[] = [
     {
         name: 'Home',
-        href: '/',
+        href: '/admin/dashboard',
         icon: Home,
     },
     {
         name: 'Tasks',
-        href: '/tasks',
+        href: '/admin/tasks',
         icon: CheckSquare,
     },
     {
         name: 'Items',
-        href: '/items',
+        href: '/admin/items',
         icon: Package,
     },
     {
         name: 'User',
-        href: '/user',
+        href: '/admin/users',
         icon: User,
     },
     {
         name: 'Analytics',
-        href: '/analytics',
+        href: '/admin/analytics',
         icon: BarChart3,
     },
 ];
