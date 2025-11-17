@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useProducts } from '../../../hooks/useProducts';
 import Header from '../../../components/storefront/HeaderFollow';
 import Lenis from 'lenis';
 import ItemContainer from '../../../components/storefront/ItemContainer';
@@ -6,21 +7,45 @@ import ProductModal from '../../../components/storefront/ProductModal';
 
 export default function Browse(){
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<any>(null);
+    const { products = [], loading, error } = useProducts();
 
     useEffect(() => {
         const lenis = new Lenis({
             autoRaf: true,
         });
-
+        
+        return () => {
+            lenis.destroy();
+        };
     }, []);
 
-    const handleOpenModal = () => {
+    const handleOpenModal = (product: any) => {
+        setSelectedProduct(product);
         setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setSelectedProduct(null);
     };
+
+    if(loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <p className="text-xl">Loading products...</p>
+            </div>
+        );
+    }
+
+    if(error) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center flex-col">
+                <p className="text-xl text-red-500">Error: {error}</p>
+                <p className="text-sm text-gray-500 mt-2">Failed to connected to the database</p>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -50,20 +75,13 @@ export default function Browse(){
                 <h2 className='text-4xl font-bold mb-4'>Browse Our Collection</h2>
                 <p className='text-lg text-gray-600 mb-8'>Discover the latest trends and styles.</p>
                 <div className='h-auto grid grid-cols-5 gap-10'>
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
-                    <ItemContainer onClick={handleOpenModal} />
+                    {products.map((product) => (
+                        <ItemContainer 
+                            key={product.id}
+                            product={product}
+                            onClick={() => handleOpenModal(product)} 
+                        />
+                    ))}
                 </div>
             </div>
 
@@ -71,7 +89,11 @@ export default function Browse(){
                  
             </div>
 
-            <ProductModal isOpen={isModalOpen} onClose={handleCloseModal} />
+            <ProductModal 
+                isOpen={isModalOpen} 
+                onClose={handleCloseModal}
+                product={selectedProduct}
+            />
         </>
     );
 }
