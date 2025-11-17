@@ -7,6 +7,7 @@ const data = [
     {name: "H&M", value: 15, color: "#ef4444"},
     {name: "Uniqlo", value: 10, color: "#f97316"},
     {name: "Levi's", value: 5, color: "#84cc16"},
+    {name: "Others", value: 20, color: "#84cc16"},
 ];
 
 export default function ClothingBrandsPieChart() {
