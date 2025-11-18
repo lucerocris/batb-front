@@ -1,18 +1,39 @@
 import { Route, Routes, Navigate } from 'react-router';
 import Dashboard from "@/app/pages/admin/Dashboard.tsx";
-import Landing from "@/app/pages/storefront/Landing.tsx";
 import AdminLayout from "@/app/layout/AdminLayout.tsx";
-import Browse from './pages/storefront/Browse';
-import Test from './pages/storefront/test';
+import User from "@/app/pages/admin/Users.tsx";
+import Items from "@/app/pages/admin/Items.tsx";
 import Analytics from "@/app/pages/admin/Analytics.tsx";
 import Tasks from "@/app/pages/admin/Tasks.tsx";
-import Items from "@/app/pages/admin/Items.tsx";
-import User from "@/app/pages/admin/Users.tsx";
+
+
+import Landing from "@/app/pages/storefront/Landing.tsx";
+import Browse from './pages/storefront/Browse';
+import Cart from './pages/storefront/Cart';
+import Test from './pages/storefront/test';
 
 export default function AppRouter() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
+            {/* STOREFRONT */}
+            <Route 
+                path="/" 
+                element={<Landing />} 
+            />
+            <Route
+                path="/browse"
+                element={
+                    <Browse />
+                }
+            />
+            <Route
+                path="/cart"
+                element={
+                    <Cart />
+                }
+        
+            />
+            {/* ADMIN */}
             <Route
                 path="/admin/dashboard"
                 element={
@@ -21,23 +42,6 @@ export default function AppRouter() {
                     </AdminLayout>
                 }
             />
-            <Route
-                path="/home"
-                element={
-                    <Landing/>     
-                }
-            />    
-            <Route
-                path="/browse"
-                element={
-                    <Browse />
-                }
-            />
-            <Route
-                path='/test'
-                element={<Test />}
-            />  
-
             <Route path="/admin/analytics" element={
                 <AdminLayout>
                     <Analytics/>
@@ -62,6 +66,10 @@ export default function AppRouter() {
                 </AdminLayout>
             } />
 
+            <Route
+                path='/test'
+                element={<Test />}
+            />  
         </Routes>
     );
 }
