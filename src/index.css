@@ -146,3 +146,25 @@
   font-family: 'IBM Plex Sans', serif;
 }
 
+/* Thin, minimal white scrollbar utility */
+.scrollbar-thin-white {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.7) transparent;
+}
+.scrollbar-thin-white::-webkit-scrollbar {
+  width: 6px; /* vertical */
+  height: 6px; /* horizontal */
+}
+
+.scrollbar-thin-white::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin-white::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.08); /* subtle edge so it’s visible on light bg */
+}
+.scrollbar-thin-white:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.9);
+}

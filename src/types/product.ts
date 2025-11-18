@@ -25,7 +25,7 @@ export interface Category {
     imageUrl: string | null;
     sortOrder: number;
     isActive: boolean;
-    metaData: any | null;
+    metaData: unknown | null;
     createdAt: string;
     updatedAt: string;
     productCount: number; 
@@ -60,6 +60,8 @@ export interface Product {
     tags: string;
     purchaseCount: number;
     createdAt: string;
+    // Optional stock status from API; may come in various formats
+    stockStatus?: string | boolean | null;
     productVariants: ProductVariant[];
     category: Category;
 }
