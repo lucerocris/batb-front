@@ -13,6 +13,7 @@ import {
     Home,
     CheckSquare,
     Package,
+    ShoppingCart,
     User,
     BarChart3,
 } from 'lucide-react';
@@ -39,6 +40,11 @@ const navigation: NavigationType[] = [
         name: 'Items',
         href: '/admin/items',
         icon: Package,
+    },
+    {
+        name: 'Orders',
+        href: '/admin/orders',
+        icon: ShoppingCart,
     },
     {
         name: 'User',

@@ -8,6 +8,7 @@ import Analytics from "@/app/pages/admin/Analytics.tsx";
 import Tasks from "@/app/pages/admin/Tasks.tsx";
 import Items from "@/app/pages/admin/Items.tsx";
 import User from "@/app/pages/admin/Users.tsx";
+import Orders from "@/app/pages/admin/Orders.tsx";
 
 export default function AppRouter() {
     return (
@@ -59,6 +60,12 @@ export default function AppRouter() {
             <Route path="/admin/items" element={
                 <AdminLayout>
                     <Items/>
+                </AdminLayout>
+            } />
+
+            <Route path="/admin/orders" element={
+                <AdminLayout>
+                    <Orders/>
                 </AdminLayout>
             } />
 
