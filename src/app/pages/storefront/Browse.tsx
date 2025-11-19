@@ -73,7 +73,7 @@ export default function Browse(){
 
             <div className='w-full h-auto bg-white flex flex-col items-center py-5 px-10'>
                 <h2 className='text-4xl font-bold mb-4'>Browse Our Collection</h2>
-                <p className='text-lg text-gray-600 mb-8'>Discover the latest trends and styles.</p>
+                <p className='text-lg text-gray-600 mb-8'>Dont miss these great deals.</p>
                 <div className='h-auto grid grid-cols-5 gap-10'>
                     {products.map((product) => (
                         <ItemContainer 

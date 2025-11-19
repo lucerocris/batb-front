@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useProducts } from '../../../hooks/useProducts';
 import Header from '../../../components/storefront/HeaderFollow';
 
-import testImage from '../../../assets/storefront_assets/testimage.jpg';
-import CheckoutItem from '../../../components/storefront/CheckoutItem.';
+import MyCart from '../../../components/storefront/MyCart'
+import Checkout from '../../../components/storefront/Checkout'
 
 import Lenis from 'lenis';
-import { LucideX } from 'lucide-react';
 
 
 export default function Cart(){
+    const [currentStep, setCurrentStep] = useState('cart'); // 'cart', 'checkout', 'payment'
     
     useEffect(() => {
         const lenis = new Lenis({
@@ -45,28 +45,11 @@ export default function Cart(){
             </div>
         </div>
 
-        <div className='w-full min-h-screen bg-white flex flex-col items-center py-5 px-5'>
-            <div className='border-b-4 border-black w-full h-[10vh] flex items-center'>
-                <h1 className='text-3xl font-semibold'>MY CART</h1>
-            </div>
-            <div className='w-full flex items-center justify-center gap-2 my-2'>
-                <p className='text-lg font-semibold'>Cart &gt;</p>
-                <p className='text-lg font-semibold text-gray-400'>Checkout &gt;</p>
-                <p className='text-lg font-semibold text-gray-400'>Payment &gt;</p>
-            </div>
-            <div className='w-full h-full flex'>
-
-                <div className='w-2/3 h-full flex bg-gray-200 flex-col'>
-                    <CheckoutItem />
-                    <CheckoutItem />
-                    <CheckoutItem />
-                </div>
-                <div className='w-1/3 h-full flex bg-gray-200 ml-1 p-2'>
-                    <div className='w-full h-[20vh] bg-white'> 
-
-                    </div>
-                </div>
-            </div>
+        {/* {currentStep === 'cart' && <MyCart onCheckout={() => setCurrentStep('checkout')} />} */}
+        <div className='transition-all duration-300'>
+            {currentStep === 'cart' && <MyCart />}
+            {currentStep === 'checkout' && <Checkout />}
+            {currentStep === 'payment' && <div>Payment Component Coming Soon</div>}
         </div>
         </>
     )

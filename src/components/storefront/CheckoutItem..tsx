@@ -21,7 +21,7 @@ export default function(){
                         </div>
                     </div>
                     <div className='ml-auto h-full] p-3'>
-                        <LucideX className='hover:scale-125 hover:rotate-32 transition-all duration-300 hover:text-red-500'/>
+                        <LucideX className='cursor-pointer hover:scale-125 hover:rotate-32 transition-all duration-300 hover:text-red-500'/>
                     </div>
                 </div>
             </div>
