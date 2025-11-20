@@ -51,6 +51,7 @@ export default function Cart(){
             {currentStep === 'checkout' && <Checkout />}
             {currentStep === 'payment' && <div>Payment Component Coming Soon</div>}
         </div>
+        <Checkout></Checkout>
         </>
     )
 }

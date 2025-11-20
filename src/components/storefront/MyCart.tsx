@@ -23,7 +23,7 @@ export default function(){
                 </div>
                 <div className='w-1/3 h-full ml-1'>
                     <div className='w-full h-full flex flex-col bg-gray-200 p-2'>
-                            <div className='w-full h-min-[20vh] bg-white p-2 pb-0'> 
+                            <div className='w-full h-min-[20vh] bg-white p-2 pb-0 pt-3'> 
                                 <div className='flex flex-col w-full'>
 
                                     <h1 className='text-xl font-semibold'>Your Orders</h1>
