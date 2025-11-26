@@ -2,6 +2,9 @@
 import { useState, useEffect } from 'react';
 import testImage from '../../assets/storefront_assets/testimage.jpg'
 
+//WARNING, FETCHING FOR PSGC API USED AI 
+//FIX IF SOMETHING WENT WRONG
+
 // Type definitions for PSGC API
 interface PSGCLocation {
     code: string;
@@ -149,7 +152,7 @@ export default function(){
             <div className='w-full flex items-center justify-center gap-2 my-2'>
                 <p className='text-lg font-semibold text-gray-400'>Cart &gt;</p>
                 <p className='text-lg font-semibold '>Checkout &gt;</p>
-                <p className='text-lg font-semibold text-gray-400'>Payment &gt;</p>
+                <p className='text-lg font-semibold text-gray-400'>Payment</p>
             </div>
             <div className="w-full h-full flex border-2">
                 <div className="w-2/3 h-full flex flex-col bg-gray-200 p-2">
@@ -351,7 +354,7 @@ export default function(){
                             </div>
                         <div className='w-full h-[10vh] flex p-1 bg-white'>
                             <a href="/checkout" className='h-full w-full bg-black text-white items-center justify-center flex
-                            duration-300 hover:text-lg'> CHECKOUT </a>
+                            duration-300 hover:text-lg'> PAYMENT </a>
                         </div>
                     </div>
                 </div>

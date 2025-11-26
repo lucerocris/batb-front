@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
-import { useProducts } from '../../../hooks/useProducts';
-import Header from '../../../components/storefront/HeaderFollow';
+import { useEffect, useState } from 'react'
+import { useProducts } from '../../../hooks/useProducts'
+import Header from '../../../components/storefront/HeaderFollow'
 
 import MyCart from '../../../components/storefront/MyCart'
 import Checkout from '../../../components/storefront/Checkout'
+import Payment from '../../../components/storefront/Payment'
 
-import Lenis from 'lenis';
+import Lenis from 'lenis'
 
 
 export default function Cart(){
@@ -52,6 +53,7 @@ export default function Cart(){
             {currentStep === 'payment' && <div>Payment Component Coming Soon</div>}
         </div>
         <Checkout></Checkout>
+        <Payment></Payment>
         </>
     )
 }
