@@ -18,7 +18,12 @@ export function useProducts(): UseProductsReturn {
             setLoading(true);
             setError(null);
             
-            const response = await fetch('/api/products');
+            const response = await fetch('/api/products', {
+                headers: {
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json'
+                }
+            });
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
