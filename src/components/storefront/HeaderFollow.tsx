@@ -69,7 +69,7 @@ export default function Header() {
                 <SheetContent side="right" className="w-80 p-0 bg-black bg-opacity-80 border-none backdrop-blur-lg [&>button]:hidden">
                     <div className="p-6">
                         <nav className="space-y-4">
-                            <a href="/home" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
+                            <a href="/" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
                                 HOME
                             </a>
                             <a href="/browse" className="block py-2 text-lg text-white hover:text-gray-600 transition-colors tracking-wide">
