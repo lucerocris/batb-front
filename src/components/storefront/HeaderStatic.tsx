@@ -12,7 +12,7 @@ export default function Header({ color }: { color: string }) {
             }}
         >
             <div>
-                <img src={`/src/assets/BATB${color}.svg`} alt="Logo" className="h-8 object-contain ml-5" />
+                <img src={`/assets/BATB${color}.svg`} alt="Logo" className="h-8 object-contain ml-5" />
             </div>
             <Sheet>
                 <SheetTrigger asChild>

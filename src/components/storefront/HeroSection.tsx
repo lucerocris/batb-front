@@ -1,5 +1,5 @@
 import { MoveDown } from 'lucide-react';
-import landingBg from '../../assets/storefront_assets/landing_bg.jpg';
+import landingBg from '/assets/storefront_assets/landing_bg.jpg';
 import Header from './HeaderStatic';
 
 export default function HeroSection() {
@@ -14,7 +14,7 @@ export default function HeroSection() {
 
             <div className='relative h-[90vh] w-full flex'>
                 <div className='w-1/2 flex flex-row-reverse items-center pr-10'>
-                    <img src="/src/assets/storefront_assets/Landing_Styled.svg" alt="get dressed with style" className='h-70 w-auto'/>
+                    <img src="/assets/storefront_assets/Landing_Styled.svg" alt="get dressed with style" className='h-70 w-auto'/>
                 </div>
                 <div className='w-1/2 flex items-center pl-10'>
                     <h1 className='text-white text-3xl tracking-wide font-light'>AT THE FRACTION OF THE COST</h1>    

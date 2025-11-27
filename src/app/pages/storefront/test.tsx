@@ -1,4 +1,4 @@
-import uniqloLogo from '../../../assets/storefront_assets/brandlogos/UNIQLO.svg';
+import uniqloLogo from '/assets/storefront_assets/brandlogos/UNIQLO.svg';
 import { useProducts } from '@/hooks/useProducts';
 
 export default function Test() {   
