@@ -1,13 +1,15 @@
-import testImage from '../../../assets/storefront_assets/testbg.png';
-import uniqloLogo from '../../../assets/storefront_assets/brandlogos/UNIQLO.svg';
-import prodImage from '../../../assets/storefront_assets/testimage.jpg';
+import uniqloLogo from '/assets/storefront_assets/brandlogos/UNIQLO.svg';
 import { useProducts } from '@/hooks/useProducts';
 
 export default function Test() {   
-    const { products = [], loading, error } = useProducts();
+    const { products = [], loading } = useProducts();
 
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!products.length) {
+        return <div>No products found.</div>;
     }
 
     const testProduct = products[0];

@@ -11,6 +11,10 @@ import Landing from "@/app/pages/storefront/Landing.tsx";
 import Browse from './pages/storefront/Browse';
 import Cart from './pages/storefront/Cart';
 import Test from './pages/storefront/test';
+import Landing from "@/app/pages/storefront/Landing.tsx";
+import Browse from './pages/storefront/Browse';
+import Test from './pages/storefront/test';
+
 
 export default function AppRouter() {
     return (
@@ -28,6 +32,7 @@ export default function AppRouter() {
             />
             <Route
                 path="/cart"
+                path="/home"
                 element={
                     <Cart />
                 }
@@ -70,6 +75,10 @@ export default function AppRouter() {
                 path='/test'
                 element={<Test />}
             />  
+            <Route
+                path='/test'
+                element={<Test />}
+            />
         </Routes>
     );
 }
