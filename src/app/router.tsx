@@ -23,10 +23,7 @@ export default function AppRouter() {
             <Route
                 path='/test'
                 element={<Test />}
-            />  
-
-
-
+            />
         </Routes>
     );
 }
