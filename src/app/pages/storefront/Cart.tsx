@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useProducts } from '../../../hooks/useProducts'
 import Header from '../../../components/storefront/HeaderFollow'
 
 import MyCart from '../../../components/storefront/MyCart'
@@ -35,7 +34,7 @@ export default function Cart(){
         <>
         <div className='w-full h-[35vh] flex flex-col bg-black'
             style={{
-                backgroundImage: `url('/src/assets/storefront_assets/patterns.png')`,
+                backgroundImage: `url('../../../public/assets/storefront_assets/patterns.png')`,
                 backgroundSize: '150px',
                 backgroundPosition: 'center',
                 }}

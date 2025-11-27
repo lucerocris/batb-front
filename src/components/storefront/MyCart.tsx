@@ -1,5 +1,5 @@
 import CheckoutItem from '../../components/storefront/CheckoutItem.';
-import testImage from '../../assets/storefront_assets/testimage.jpg'
+import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
 
 interface MyCartProps {
     onCheckout?: () => void;

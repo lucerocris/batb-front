@@ -1,4 +1,4 @@
-import testImage from '../../assets/storefront_assets/testimage.jpg'
+import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
 import { LucideX } from "lucide-react";
 
 export default function(){

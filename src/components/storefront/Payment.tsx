@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import testImage from '../../assets/storefront_assets/testimage.jpg'
-import QR from '../../assets/storefront_assets/QR-PAYMENT.jpg'
-import PayPal from '../../assets/storefront_assets/PayPal.svg'
-import BPI from '../../assets/storefront_assets/BPI.svg'
-import Gcash from '../../assets/storefront_assets/GCash.svg'
-import BDO from '../../assets/storefront_assets/BDO.svg'
+import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
+import QR from '../../../public/assets/storefront_assets/QR-PAYMENT.jpg'
+import PayPal from '../../../public/assets/storefront_assets/PayPal.svg'
+import BPI from '../../../public/assets/storefront_assets/BPI.svg'
+import BDO from '../../../public/assets/storefront_assets/BDO.svg'
 
 interface PaymentProps {
     onBack?: () => void;

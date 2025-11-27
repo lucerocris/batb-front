@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import testImage from '../../assets/storefront_assets/testimage.jpg'
+import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
 
 //WARNING, FETCHING FOR PSGC API USED AI 
 //FIX IF SOMETHING WENT WRONG
