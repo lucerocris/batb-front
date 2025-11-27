@@ -1,5 +1,5 @@
 import { MoveDown } from 'lucide-react';
-import landingBg from '/assets/storefront_assets/landing_bg.jpg';
+import landingBg from '../../../public/assets/storefront_assets/landing_bg.jpg';
 import Header from './HeaderStatic';
 
 export default function HeroSection() {

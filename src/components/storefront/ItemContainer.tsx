@@ -28,7 +28,6 @@ export default function ItemContainer({ product, onClick }: ItemContainerProps) 
                     </div>
                     <div className='w-full mt-auto flex items-center mb-2'>
                         <h1 className='pl-1 text-white text-lg font-extrabold'>₱{product.basePrice}</h1>
-                        <button className='sans text-sm ml-auto bg-white text-black font-bold px-3 py-1 hover:bg-black hover:text-white transition-all duration-300 cursor-pointer'>ADD TO CART</button>
                     </div>
                 </div>
             </div>

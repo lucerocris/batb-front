@@ -1,4 +1,4 @@
-import browseBg from '/assets/storefront_assets/patterns.png';
+import browseBg from '../../../public/assets/storefront_assets/patterns.png';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from './HeaderStatic';
 

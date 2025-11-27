@@ -1,19 +1,17 @@
-import { Route, Routes, Navigate } from 'react-router';
+import { Route, Routes } from 'react-router';
+
+import Cart from './pages/storefront/Cart';
 import Landing from "@/app/pages/storefront/Landing.tsx";
 import Browse from './pages/storefront/Browse';
-import Test from './pages/storefront/test';
-
 
 export default function AppRouter() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/home" replace />} />
-            <Route
-                path="/home"
-                element={
-                    <Landing/>     
-                }
-            />    
+            {/* STOREFRONT */}
+            <Route 
+                path="/" 
+                element={<Landing />} 
+            />
             <Route
                 path="/browse"
                 element={
@@ -21,8 +19,10 @@ export default function AppRouter() {
                 }
             />
             <Route
-                path='/test'
-                element={<Test />}
+                path="/cart"
+                element={
+                    <Cart />
+                }
             />
         </Routes>
     );
