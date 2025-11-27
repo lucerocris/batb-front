@@ -12,15 +12,18 @@ export function useProducts(): UseProductsReturn {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     const fetchProducts = async () => {
+
+
         try {
             setLoading(true);
             setError(null);
             
-            const response = await fetch('/api/products', {
+            const response = await fetch(`${BASE_URL}/products`, {
                 headers: {
-                    'Accept': 'application/json', 
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             });
