@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://batb-api.test',
+        target: 'https://batb-api.dcism.org',
         changeOrigin: true,
         secure: false,
       }
