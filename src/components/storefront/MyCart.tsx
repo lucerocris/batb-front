@@ -1,8 +1,15 @@
 import CheckoutItem from '../../components/storefront/CheckoutItem.';
 import testImage from '../../assets/storefront_assets/testimage.jpg'
 
+interface MyCartProps {
+    onCheckout?: () => void;
+    onBack?: () => void;
+}
 
-export default function(){
+
+export default function MyCart({ onCheckout, onBack }: MyCartProps){
+
+
     return(
         <>
         <div className='w-full min-h-screen bg-white flex flex-col items-center py-5 px-5'>
@@ -66,9 +73,24 @@ export default function(){
 
                             </div>
                         <div className='w-full h-[10vh] flex p-1 bg-white'>
-                            <a href="/checkout" className='h-full w-full bg-black text-white items-center justify-center flex
-                            duration-300 hover:text-lg'> CHECKOUT </a>
+                            <button 
+                                onClick={onCheckout}
+                                className='h-full w-full bg-black text-white items-center justify-center flex
+                                duration-300 hover:text-lg cursor-pointer'> 
+                                PROCEED 
+                            </button>
                         </div>
+                        {onBack && (
+                            <div className='w-full h-[8vh] flex p-1 bg-white'>
+                                <button 
+                                    onClick={onBack}
+                                    className='h-full w-full bg-gray-500 text-white items-center justify-center flex
+                                    duration-300 hover:bg-gray-600'
+                                > 
+                                    ← GO BACK 
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

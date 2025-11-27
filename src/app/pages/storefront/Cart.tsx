@@ -11,6 +11,15 @@ import Lenis from 'lenis'
 
 export default function Cart(){
     const [currentStep, setCurrentStep] = useState('cart'); // 'cart', 'checkout', 'payment'
+    const [isTransitioning, setIsTransitioning] = useState(false);
+    
+    const handleStepChange = (newStep: string) => {
+        setIsTransitioning(true);
+        setTimeout(() => {
+            setCurrentStep(newStep);
+            setIsTransitioning(false);
+        }, 150);
+    };
     
     useEffect(() => {
         const lenis = new Lenis({
@@ -46,14 +55,12 @@ export default function Cart(){
             </div>
         </div>
 
-        {/* {currentStep === 'cart' && <MyCart onCheckout={() => setCurrentStep('checkout')} />} */}
-        <div className='transition-all duration-300'>
-            {currentStep === 'cart' && <MyCart />}
-            {currentStep === 'checkout' && <Checkout />}
-            {currentStep === 'payment' && <div>Payment Component Coming Soon</div>}
+        {/* Component with fade transition */}
+        <div className={`transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+            {currentStep === 'cart' && <MyCart onCheckout={() => handleStepChange('checkout')} />}
+            {currentStep === 'checkout' && <Checkout onPayment={() => handleStepChange('payment')} onBack={() => handleStepChange('cart')} />}
+            {currentStep === 'payment' && <Payment onBack={() => handleStepChange('checkout')} />}
         </div>
-        <Checkout></Checkout>
-        <Payment></Payment>
         </>
     )
 }

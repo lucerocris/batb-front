@@ -11,7 +11,12 @@ interface PSGCLocation {
     name: string;
 }
 
-export default function(){
+interface MyCartProps {
+    onPayment?: () => void;
+    onBack?: () => void;
+}
+
+export default function({ onPayment, onBack }: MyCartProps){
     // Form states
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -353,9 +358,24 @@ export default function(){
 
                             </div>
                         <div className='w-full h-[10vh] flex p-1 bg-white'>
-                            <a href="/checkout" className='h-full w-full bg-black text-white items-center justify-center flex
-                            duration-300 hover:text-lg'> PAYMENT </a>
+                            <button 
+                                onClick={onPayment}
+                                className='h-full w-full bg-black text-white items-center justify-center flex
+                                duration-300 hover:text-lg cursor-pointer'
+                            
+                            > PROCEED </button>
                         </div>
+                        {onBack && (
+                            <div className='w-full h-[8vh] flex p-1 bg-white'>
+                                <button 
+                                    onClick={onBack}
+                                    className='h-full w-full bg-gray-500 text-white items-center justify-center flex
+                                    duration-300 hover:bg-gray-600 cursor-pointer'
+                                > 
+                                    ← GO BACK 
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>            
