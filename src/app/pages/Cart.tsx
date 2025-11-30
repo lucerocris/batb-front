@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import Header from '@/components/HeaderFollow';
-import MyCart from '@/components/MyCart';
-import Checkout from '@/components/Checkout';
-import Payment from '@/components/Payment';
+import MyCart from '@/components/cart/MyCart';
+import Checkout from '@/components/cart/Checkout';
+import Payment from '@/components/cart/Payment';
 import { useCart } from '@/hooks/useCart';
 import { useCheckoutForm } from '@/hooks/useCheckoutForm';
 
