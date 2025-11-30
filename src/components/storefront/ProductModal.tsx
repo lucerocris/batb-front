@@ -10,7 +10,6 @@ interface ProductModalProps {
 
 export default function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
     const [isVisible, setIsVisible] = useState(false);
-    const [quantity, setQuantity] = useState(1);
     const [isAdding, setIsAdding] = useState(false);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
@@ -23,7 +22,6 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
     }, [isOpen]);
 
     useEffect(() => {
-        setQuantity(1);
         setFeedback(null);
     }, [product?.id, isOpen]);
 
@@ -49,7 +47,6 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
             setFeedback(null);
             const response = await addToCart({
                 productId: product.id,
-                quantity,
                 size: null,
             });
             setFeedback({
@@ -64,10 +61,6 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
         } finally {
             setIsAdding(false);
         }
-    };
-
-    const handleQuantityChange = (delta: number) => {
-        setQuantity(prev => Math.max(1, prev + delta));
     };
 
     return (
@@ -150,26 +143,9 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                         )}
                         <div className='flex w-1/2 ml-auto flex-col items-end'>
                             <div className='flex w-full items-center mb-3'>
-                                <div className='flex items-center bg-white text-black font-semibold'>
-                                    <button
-                                        type='button'
-                                        onClick={() => handleQuantityChange(-1)}
-                                        className='px-3 py-2 hover:bg-black hover:text-white transition-colors duration-200'
-                                        disabled={quantity === 1}
-                                    >
-                                        -
-                                    </button>
-                                    <span className='px-4 py-2 border-x border-black'>
-                                        {quantity}
-                                    </span>
-                                    <button
-                                        type='button'
-                                        onClick={() => handleQuantityChange(1)}
-                                        className='px-3 py-2 hover:bg-black hover:text-white transition-colors duration-200'
-                                    >
-                                        +
-                                    </button>
-                                </div>
+                                <p className='text-sm uppercase tracking-wide text-white/80'>
+                                    Single-item pullout
+                                </p>
                             </div>
                             <div className='flex w-full'>
                                 <button

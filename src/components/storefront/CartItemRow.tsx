@@ -4,7 +4,6 @@ import type { CartItem } from '@/types/cart';
 interface CartItemRowProps {
     item: CartItem;
     onRemove: () => Promise<void>;
-    onQuantityChange: (quantity: number) => Promise<void>;
     disabled?: boolean;
 }
 
@@ -13,14 +12,7 @@ const currencyFormatter = new Intl.NumberFormat('en-PH', {
     currency: 'PHP',
 });
 
-export default function CartItemRow({ item, onRemove, onQuantityChange, disabled }: CartItemRowProps) {
-    const handleQuantityChange = (delta: number) => {
-        const nextQuantity = Math.max(1, item.quantity + delta);
-        if (nextQuantity !== item.quantity) {
-            void onQuantityChange(nextQuantity);
-        }
-    };
-
+export default function CartItemRow({ item, onRemove, disabled }: CartItemRowProps) {
     return (
         <div className='w-full flex flex-col p-2'>
             <div className='w-full min-h-[18vh] bg-white flex justify-between hover:scale-[0.99] transition-all duration-500 group'>
@@ -43,27 +35,11 @@ export default function CartItemRow({ item, onRemove, onQuantityChange, disabled
                             )}
                         </div>
                         <div className='mt-auto flex items-center gap-4'>
-                            <div className='flex items-center border border-black text-black font-semibold'>
-                                <button
-                                    type='button'
-                                    onClick={() => handleQuantityChange(-1)}
-                                    disabled={disabled || item.quantity === 1}
-                                    className='px-3 py-1 hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
-                                >
-                                    -
-                                </button>
-                                <span className='px-4 py-1 border-x border-black select-none'>{item.quantity}</span>
-                                <button
-                                    type='button'
-                                    onClick={() => handleQuantityChange(1)}
-                                    disabled={disabled}
-                                    className='px-3 py-1 hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
-                                >
-                                    +
-                                </button>
+                            <div className='px-4 py-1 border border-black text-black font-semibold select-none'>
+                                Single pullout
                             </div>
                             <h1 className='text-xl font-semibold text-black'>
-                                {currencyFormatter.format(item.subtotal ?? item.price * item.quantity)}
+                                {currencyFormatter.format(item.subtotal ?? item.price)}
                             </h1>
                         </div>
                     </div>

@@ -5,11 +5,13 @@ import MyCart from '../../../components/storefront/MyCart';
 import Checkout from '../../../components/storefront/Checkout';
 import Payment from '../../../components/storefront/Payment';
 import { useCart } from '@/hooks/useCart';
+import { useCheckoutForm } from '@/hooks/useCheckoutForm';
 
 export default function Cart() {
     const [currentStep, setCurrentStep] = useState('cart'); // 'cart', 'checkout', 'payment'
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const { items, total, loading, error, refetch, removeItem, updateItemQuantity, clearCart } = useCart();
+    const { items, total, loading, error, refetch, removeItem, clearCart } = useCart();
+    const checkoutForm = useCheckoutForm();
 
     const handleStepChange = (newStep: string) => {
         setIsTransitioning(true);
@@ -66,15 +68,20 @@ export default function Cart() {
                         error={error}
                         onRetry={refetch}
                         onRemove={removeItem}
-                        onQuantityChange={updateItemQuantity}
                         onClear={clearCart}
                         onCheckout={() => handleStepChange('checkout')}
                     />
                 )}
                 {currentStep === 'checkout' && (
-                    <Checkout onPayment={() => handleStepChange('payment')} onBack={() => handleStepChange('cart')} />
+                    <Checkout
+                        checkoutForm={checkoutForm}
+                        onPayment={() => handleStepChange('payment')}
+                        onBack={() => handleStepChange('cart')}
+                    />
                 )}
-                {currentStep === 'payment' && <Payment onBack={() => handleStepChange('checkout')} />}
+                {currentStep === 'payment' && (
+                    <Payment checkoutForm={checkoutForm} onBack={() => handleStepChange('checkout')} />
+                )}
             </div>
         </>
     );

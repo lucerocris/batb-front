@@ -9,7 +9,6 @@ interface MyCartProps {
     error: string | null;
     onRetry: () => void;
     onRemove: (id: string) => Promise<void>;
-    onQuantityChange: (id: string, quantity: number) => Promise<void>;
     onClear: () => Promise<void>;
     onCheckout?: () => void;
     onBack?: () => void;
@@ -27,7 +26,6 @@ export default function MyCart({
     error,
     onRetry,
     onRemove,
-    onQuantityChange,
     onClear,
     onCheckout,
     onBack,
@@ -35,22 +33,13 @@ export default function MyCart({
     const [pendingItemId, setPendingItemId] = useState<string | null>(null);
     const [isClearing, setIsClearing] = useState(false);
 
-    const totalItems = useMemo(() => items.reduce((acc, item) => acc + item.quantity, 0), [items]);
+    const totalItems = useMemo(() => items.length, [items]);
     const previewImages = useMemo(() => items.slice(0, 3).map(item => item.product.imageUrl), [items]);
 
     const handleRemove = async (id: string) => {
         setPendingItemId(id);
         try {
             await onRemove(id);
-        } finally {
-            setPendingItemId(null);
-        }
-    };
-
-    const handleQuantityUpdate = async (id: string, quantity: number) => {
-        setPendingItemId(id);
-        try {
-            await onQuantityChange(id, quantity);
         } finally {
             setPendingItemId(null);
         }
@@ -105,7 +94,6 @@ export default function MyCart({
                         key={item.id}
                         item={item}
                         onRemove={() => handleRemove(item.id)}
-                        onQuantityChange={quantity => handleQuantityUpdate(item.id, quantity)}
                         disabled={pendingItemId === item.id || isClearing}
                     />
                 ))}

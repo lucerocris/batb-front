@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/useCart';
+import type { UseCheckoutFormReturn } from '@/hooks/useCheckoutForm';
 import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
 
 const currencyFormatter = new Intl.NumberFormat('en-PH', {
@@ -17,20 +18,15 @@ interface PSGCLocation {
     name: string;
 }
 
-interface MyCartProps {
+interface CheckoutProps {
+    checkoutForm: UseCheckoutFormReturn;
     onPayment?: () => void;
     onBack?: () => void;
 }
 
-export default function({ onPayment, onBack }: MyCartProps){
+export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutProps){
     const { items, total, loading: cartLoading, error: cartError } = useCart();
-    // Form states
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [street, setStreet] = useState('');
-    const [zipCode, setZipCode] = useState('');
+    const { values, updateContact, updateShippingAddress, canProceedToPayment: formReady, validationIssues } = checkoutForm;
     
     // Location states
     const [regions, setRegions] = useState<PSGCLocation[]>([]);
@@ -74,6 +70,9 @@ export default function({ onPayment, onBack }: MyCartProps){
             setSelectedProvince('');
             setSelectedCity('');
             setSelectedBarangay('');
+            updateShippingAddress('province', '');
+            updateShippingAddress('city', '');
+            updateShippingAddress('barangay', '');
         } catch (error) {
             console.error('Error fetching provinces:', error);
         } finally {
@@ -90,6 +89,8 @@ export default function({ onPayment, onBack }: MyCartProps){
             setBarangays([]);
             setSelectedCity('');
             setSelectedBarangay('');
+            updateShippingAddress('city', '');
+            updateShippingAddress('barangay', '');
         } catch (error) {
             console.error('Error fetching cities:', error);
         } finally {
@@ -104,6 +105,7 @@ export default function({ onPayment, onBack }: MyCartProps){
             const data = await response.json();
             setBarangays(data);
             setSelectedBarangay('');
+            updateShippingAddress('barangay', '');
         } catch (error) {
             console.error('Error fetching barangays:', error);
         } finally {
@@ -114,34 +116,53 @@ export default function({ onPayment, onBack }: MyCartProps){
     const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const regionCode = e.target.value;
         setSelectedRegion(regionCode);
+        const regionName = regions.find((region) => region.code === regionCode)?.name ?? '';
+        updateShippingAddress('region', regionCode ? regionName : '');
         if (regionCode) {
             fetchProvinces(regionCode);
         } else {
             setProvinces([]);
             setCities([]);
             setBarangays([]);
+            updateShippingAddress('province', '');
+            updateShippingAddress('city', '');
+            updateShippingAddress('barangay', '');
         }
     };
 
     const handleProvinceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const provinceCode = e.target.value;
         setSelectedProvince(provinceCode);
+        const provinceName = provinces.find((province) => province.code === provinceCode)?.name ?? '';
+        updateShippingAddress('province', provinceCode ? provinceName : '');
         if (provinceCode) {
             fetchCities(provinceCode);
         } else {
             setCities([]);
             setBarangays([]);
+            updateShippingAddress('city', '');
+            updateShippingAddress('barangay', '');
         }
     };
 
     const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const cityCode = e.target.value;
         setSelectedCity(cityCode);
+        const cityName = cities.find((city) => city.code === cityCode)?.name ?? '';
+        updateShippingAddress('city', cityCode ? cityName : '');
         if (cityCode) {
             fetchBarangays(cityCode);
         } else {
             setBarangays([]);
+            updateShippingAddress('barangay', '');
         }
+    };
+
+    const handleBarangayChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const barangayCode = e.target.value;
+        setSelectedBarangay(barangayCode);
+        const barangayName = barangays.find((barangay) => barangay.code === barangayCode)?.name ?? '';
+        updateShippingAddress('barangay', barangayCode ? barangayName : '');
     };
 
     const formatPhoneNumber = (value: string) => {
@@ -156,7 +177,8 @@ export default function({ onPayment, onBack }: MyCartProps){
         return digits;
     };
     const previewItems = items.slice(0, 3);
-    const canProceedToPayment = !cartLoading && !cartError && items.length > 0;
+    const cartReady = !cartLoading && !cartError && items.length > 0;
+    const canProceedToPayment = cartReady && formReady;
     return(
         <>
         <div className='w-full h-screen bg-white flex flex-col items-center py-5 px-5'>
@@ -180,8 +202,8 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <label className='font-semibold'> First Name</label>
                                     <input 
                                         type="text" 
-                                        value={firstName}
-                                        onChange={(e) => setFirstName(e.target.value)}
+                                        value={values.shippingAddress.firstName}
+                                        onChange={(e) => updateShippingAddress('firstName', e.target.value)}
                                         placeholder='John' 
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                     />
@@ -190,8 +212,8 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <label className='font-semibold'> Last Name</label>
                                     <input 
                                         type="text" 
-                                        value={lastName}
-                                        onChange={(e) => setLastName(e.target.value)}
+                                        value={values.shippingAddress.lastName}
+                                        onChange={(e) => updateShippingAddress('lastName', e.target.value)}
                                         placeholder='Doe' 
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                     />
@@ -200,8 +222,8 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <label className='font-semibold'> Email</label>
                                     <input 
                                         type="email" 
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        value={values.contact.email}
+                                        onChange={(e) => updateContact('email', e.target.value)}
                                         placeholder='customer@example.com' 
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                     />
@@ -210,10 +232,10 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <label className='font-semibold'> Phone</label>
                                     <input 
                                         type="tel" 
-                                        value={phoneNumber ? `(+63) ${formatPhoneNumber(phoneNumber)}` : ''}
+                                        value={values.shippingAddress.phone ? `(+63) ${formatPhoneNumber(values.shippingAddress.phone)}` : ''}
                                         onChange={(e) => {
                                             const value = e.target.value.replace('(+63) ', '').replace(/\D/g, '');
-                                            setPhoneNumber(value);
+                                            updateShippingAddress('phone', value);
                                         }}
                                         placeholder='(+63) 9XX XXX XXXX' 
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
@@ -230,8 +252,8 @@ export default function({ onPayment, onBack }: MyCartProps){
                                 <label className='font-semibold'>Street Address</label>
                                 <input 
                                     type="text" 
-                                    value={street}
-                                    onChange={(e) => setStreet(e.target.value)}
+                                    value={values.shippingAddress.addressLine1}
+                                    onChange={(e) => updateShippingAddress('addressLine1', e.target.value)}
                                     placeholder='123 Street Name, Block/Lot' 
                                     className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                 />
@@ -240,8 +262,8 @@ export default function({ onPayment, onBack }: MyCartProps){
                                 <label className='font-semibold'>ZIP Code</label>
                                 <input 
                                     type="text" 
-                                    value={zipCode}
-                                    onChange={(e) => setZipCode(e.target.value)}
+                                    value={values.shippingAddress.postalCode}
+                                    onChange={(e) => updateShippingAddress('postalCode', e.target.value)}
                                     placeholder='1234' 
                                     className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                 />
@@ -305,7 +327,7 @@ export default function({ onPayment, onBack }: MyCartProps){
                                 <label className='font-semibold'>Barangay</label>
                                 <select 
                                     value={selectedBarangay}
-                                    onChange={(e) => setSelectedBarangay(e.target.value)}
+                                    onChange={handleBarangayChange}
                                     disabled={!selectedCity || loadingBarangays}
                                     className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
                                 >
@@ -367,10 +389,10 @@ export default function({ onPayment, onBack }: MyCartProps){
                                         {!cartLoading && !cartError && items.map((item) => (
                                             <div key={item.id} className='flex justify-between text-sm text-gray-600'>
                                                 <span className='max-w-[60%] truncate'>
-                                                    {item.quantity} × {item.product.name}
+                                                    {item.product.name}
                                                 </span>
                                                 <span>
-                                                    {currencyFormatter.format(item.subtotal ?? item.price * item.quantity)}
+                                                    {currencyFormatter.format(item.subtotal ?? item.price)}
                                                 </span>
                                             </div>
                                         ))}
@@ -399,11 +421,18 @@ export default function({ onPayment, onBack }: MyCartProps){
                             > PROCEED </button>
                         </div>
                         {!canProceedToPayment && (
-                            <p className='text-xs text-gray-500 text-center mt-1'>
-                                {cartLoading && 'Fetching your cart...'}
-                                {!cartLoading && cartError && 'Resolve the cart issue to continue.'}
-                                {!cartLoading && !cartError && !items.length && 'Add items to your cart to proceed.'}
-                            </p>
+                            <div className='text-xs text-gray-600 mt-2 space-y-1 text-left'>
+                                <ul className='list-disc list-inside space-y-0.5'>
+                                    {cartLoading && <li>Fetching your cart...</li>}
+                                    {!cartLoading && cartError && <li>Resolve the cart issue to continue.</li>}
+                                    {!cartLoading && !cartError && !items.length && <li>Add items to your cart to proceed.</li>}
+                                    {cartReady && !formReady &&
+                                        (validationIssues.length ? validationIssues : ['Complete your customer and address information.'])
+                                            .map((issue, index) => (
+                                                <li key={`${issue}-${index}`}>{issue}</li>
+                                            ))}
+                                </ul>
+                            </div>
                         )}
                         {onBack && (
                             <div className='w-full h-[8vh] flex p-1 bg-white'>

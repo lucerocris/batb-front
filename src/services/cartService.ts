@@ -65,16 +65,6 @@ export async function fetchCart(): Promise<CartResponse> {
   });
 }
 
-export async function updateCartItem(
-  id: string,
-  quantity: number
-): Promise<CartMutationResponse> {
-  return request<CartMutationResponse>(`/cart/${id}`, {
-    method: 'PUT',
-    body: JSON.stringify({ quantity }),
-  });
-}
-
 export async function removeCartItem(
   id: string
 ): Promise<CartMutationResponse> {

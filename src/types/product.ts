@@ -4,7 +4,6 @@ export interface ProductVariant {
     name: string;
     sku: string;
     priceAdjustment: number;
-    stockQuantity: number;
     reservedQuantity: number;
     attributes: {
         color: string;
@@ -43,7 +42,6 @@ export interface Product {
     basePrice: number;
     salePrice: number | null;
     costPrice: number;
-    stockQuantity: number;
     reservedQuantity: number;
     lowStockThreshold: number;
     trackInventory: boolean;

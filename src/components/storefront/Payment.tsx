@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '@/hooks/useCart';
+import type { UseCheckoutFormReturn } from '@/hooks/useCheckoutForm';
+import { submitOrder } from '@/services/orderService';
 import QR from '../../../public/assets/storefront_assets/QR-PAYMENT.jpg';
 import PayPal from '../../../public/assets/storefront_assets/PayPal.svg';
 import BPI from '../../../public/assets/storefront_assets/BPI.svg';
@@ -12,25 +14,119 @@ const currencyFormatter = new Intl.NumberFormat('en-PH', {
 });
 
 interface PaymentProps {
+  checkoutForm: UseCheckoutFormReturn;
   onBack?: () => void;
 }
 
-export default function Payment({ onBack }: PaymentProps) {
+export default function Payment({ checkoutForm, onBack }: PaymentProps) {
   const { items, total, loading: cartLoading, error: cartError } = useCart();
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('gcash');
-  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const {
+    values,
+    setPaymentChannel,
+    updatePayment,
+    setPaymentProof,
+    buildOrderPayload,
+    canSubmitOrder: formSubmissionReady,
+    validationIssues,
+    resetForm,
+  } = checkoutForm;
+  const paymentProof = values.payment.proof;
+  const selectedPaymentChannel = values.payment.channel;
   const [paymentProofPreview, setPaymentProofPreview] = useState<string | null>(
     null
   );
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const previewItems = items.slice(0, 3);
-  const canSubmitOrder = !cartLoading && !cartError && items.length > 0;
+  const canSubmitOrder =
+    !cartLoading && !cartError && items.length > 0 && formSubmissionReady;
+
+  const blockingReasons = useMemo(() => {
+    const reasons: string[] = [];
+    if (cartLoading) {
+      reasons.push('Fetching cart data, please wait.');
+    }
+    if (cartError) {
+      reasons.push('Resolve the cart issue before placing an order.');
+    }
+    if (!cartLoading && !cartError && !items.length) {
+      reasons.push('Add at least one item to your cart.');
+    }
+    if (!formSubmissionReady) {
+      reasons.push(...validationIssues);
+    }
+    return reasons;
+  }, [
+    cartLoading,
+    cartError,
+    items.length,
+    formSubmissionReady,
+    validationIssues,
+  ]);
 
   const handlePaymentProofChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0] ?? null;
     setPaymentProof(file);
+    setSubmitError(null);
   };
+
+  const handleSubmitOrder = async () => {
+    if (!canSubmitOrder) {
+      setSubmitError(
+        blockingReasons[0] ?? 'Unable to submit order. Please review the form.'
+      );
+      return;
+    }
+
+    setSubmitError(null);
+    setSubmitSuccess(null);
+    setIsSubmitting(true);
+
+    try {
+      const payload = buildOrderPayload({ cartItems: items });
+      const response = await submitOrder(payload);
+      setSubmitSuccess(
+        response?.message ||
+          'Order submitted successfully! Check your email for confirmation.'
+      );
+      resetForm();
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'Failed to submit order.';
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderReferenceFields = (label: string, placeholder: string) => (
+    <div className="text-center space-y-3">
+      <div>
+        <p className="text-sm mb-2">{label}</p>
+        <input
+          type="text"
+          placeholder={placeholder}
+          value={values.payment.reference}
+          onChange={(e) => updatePayment('reference', e.target.value)}
+          className="w-full border border-gray-300 p-2 text-sm"
+        />
+      </div>
+      <div className="text-left">
+        <label className="text-xs font-semibold text-gray-600">
+          Payment Date
+        </label>
+        <input
+          type="date"
+          value={values.payment.sentAt}
+          onChange={(e) => updatePayment('sentAt', e.target.value)}
+          className="w-full border border-gray-300 p-2 text-sm mt-1"
+        />
+      </div>
+    </div>
+  );
 
   useEffect(() => {
     if (!paymentProof) {
@@ -233,11 +329,11 @@ export default function Payment({ onBack }: PaymentProps) {
                           className="flex justify-between text-sm text-gray-600"
                         >
                           <span className="max-w-[60%] truncate">
-                            {item.quantity} × {item.product.name}
+                            {item.product.name}
                           </span>
                           <span>
                             {currencyFormatter.format(
-                              item.subtotal ?? item.price * item.quantity
+                              item.subtotal ?? item.price
                             )}
                           </span>
                         </div>
@@ -264,9 +360,9 @@ export default function Payment({ onBack }: PaymentProps) {
                   {/* Tab Headers */}
                   <div className="flex w-full border-b-2 border-gray-300">
                     <button
-                      onClick={() => setSelectedPaymentMethod('gcash')}
+                      onClick={() => setPaymentChannel('gcash')}
                       className={`flex-1 py-2 px-3 text-sm font-semibold transition-colors  cursor-pointer ${
-                        selectedPaymentMethod === 'gcash'
+                        selectedPaymentChannel === 'gcash'
                           ? 'bg-black text-white border-b-2 border-black'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
@@ -274,9 +370,9 @@ export default function Payment({ onBack }: PaymentProps) {
                       GCASH
                     </button>
                     <button
-                      onClick={() => setSelectedPaymentMethod('bpi')}
+                      onClick={() => setPaymentChannel('bpi')}
                       className={`flex-1 py-2 px-3 text-sm font-semibold transition-colors  cursor-pointer ${
-                        selectedPaymentMethod === 'bpi'
+                        selectedPaymentChannel === 'bpi'
                           ? 'bg-black text-white border-b-2 border-black'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
@@ -284,9 +380,9 @@ export default function Payment({ onBack }: PaymentProps) {
                       BPI
                     </button>
                     <button
-                      onClick={() => setSelectedPaymentMethod('paypal')}
+                      onClick={() => setPaymentChannel('paypal')}
                       className={`flex-1 py-2 px-3 text-sm font-semibold transition-colors  cursor-pointer ${
-                        selectedPaymentMethod === 'paypal'
+                        selectedPaymentChannel === 'paypal'
                           ? 'bg-black text-white border-b-2 border-black'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
@@ -294,9 +390,9 @@ export default function Payment({ onBack }: PaymentProps) {
                       PAYPAL
                     </button>
                     <button
-                      onClick={() => setSelectedPaymentMethod('bdo')}
+                      onClick={() => setPaymentChannel('bdo')}
                       className={`flex-1 py-2 px-3 text-sm font-semibold transition-colors cursor-pointer ${
-                        selectedPaymentMethod === 'bdo'
+                        selectedPaymentChannel === 'bdo'
                           ? 'bg-black text-white border-b-2 border-black'
                           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                       }`}
@@ -307,54 +403,26 @@ export default function Payment({ onBack }: PaymentProps) {
 
                   {/* Tab Content */}
                   <div className="p-3 bg-white border border-gray-200">
-                    {selectedPaymentMethod === 'gcash' && (
-                      <div className="text-center">
-                        <p className="text-sm mb-2">
-                          Enter your GCash reference number:
-                        </p>
-                        <input
-                          type="text"
-                          placeholder="Reference Number"
-                          className="w-full border border-gray-300 p-2 text-sm"
-                        />
-                      </div>
-                    )}
-                    {selectedPaymentMethod === 'bpi' && (
-                      <div className="text-center">
-                        <p className="text-sm mb-2">
-                          Enter your BPI reference number:
-                        </p>
-                        <input
-                          type="text"
-                          placeholder="Reference Number"
-                          className="w-full border border-gray-300 p-2 text-sm"
-                        />
-                      </div>
-                    )}
-                    {selectedPaymentMethod === 'paypal' && (
-                      <div className="text-center">
-                        <p className="text-sm mb-2">
-                          Enter your PayPal transaction ID:
-                        </p>
-                        <input
-                          type="text"
-                          placeholder="Transaction ID"
-                          className="w-full border border-gray-300 p-2 text-sm"
-                        />
-                      </div>
-                    )}
-                    {selectedPaymentMethod === 'bdo' && (
-                      <div className="text-center">
-                        <p className="text-sm mb-2">
-                          Enter your BDO reference number:
-                        </p>
-                        <input
-                          type="text"
-                          placeholder="Reference Number"
-                          className="w-full border border-gray-300 p-2 text-sm"
-                        />
-                      </div>
-                    )}
+                    {selectedPaymentChannel === 'gcash' &&
+                      renderReferenceFields(
+                        'Enter your GCash reference number:',
+                        'Reference Number'
+                      )}
+                    {selectedPaymentChannel === 'bpi' &&
+                      renderReferenceFields(
+                        'Enter your BPI reference number:',
+                        'Reference Number'
+                      )}
+                    {selectedPaymentChannel === 'paypal' &&
+                      renderReferenceFields(
+                        'Enter your PayPal transaction ID:',
+                        'Transaction ID'
+                      )}
+                    {selectedPaymentChannel === 'bdo' &&
+                      renderReferenceFields(
+                        'Enter your BDO reference number:',
+                        'Reference Number'
+                      )}
                   </div>
                   <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
                     <input
@@ -400,23 +468,32 @@ export default function Payment({ onBack }: PaymentProps) {
                     )}
                   </div>
                   <button
-                    disabled={!canSubmitOrder}
+                    type="button"
+                    onClick={handleSubmitOrder}
+                    disabled={!canSubmitOrder || isSubmitting}
                     className="w-full py-3 bg-black text-white items-center justify-center flex
                                 duration-300 hover:text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    ORDER
+                    {isSubmitting ? 'PROCESSING...' : 'ORDER'}
                   </button>
                 </div>
-                {!canSubmitOrder && (
-                  <p className="text-xs text-gray-500 text-center mt-1">
-                    {cartLoading && 'Fetching your cart...'}
-                    {!cartLoading &&
-                      cartError &&
-                      'Resolve the cart issue to continue.'}
-                    {!cartLoading &&
-                      !cartError &&
-                      !items.length &&
-                      'Add items to your cart to place an order.'}
+                {(blockingReasons.length > 0 || submitError) && (
+                  <div className="text-xs text-gray-600 mt-2 space-y-1">
+                    {submitError && (
+                      <p className="text-red-600 font-semibold">
+                        {submitError}
+                      </p>
+                    )}
+                    <ul className="list-disc list-inside space-y-0.5">
+                      {blockingReasons.map((reason, index) => (
+                        <li key={`${reason}-${index}`}>{reason}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {submitSuccess && (
+                  <p className="text-xs text-emerald-600 mt-2">
+                    {submitSuccess}
                   </p>
                 )}
               </div>

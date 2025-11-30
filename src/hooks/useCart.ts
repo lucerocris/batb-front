@@ -3,7 +3,6 @@ import type { CartItem } from '@/types/cart';
 import {
   fetchCart,
   removeCartItem,
-  updateCartItem,
   clearCart as clearCartRequest,
 } from '@/services/cartService';
 
@@ -14,7 +13,6 @@ interface UseCartReturn {
   error: string | null;
   refetch: () => Promise<void>;
   removeItem: (id: string) => Promise<void>;
-  updateItemQuantity: (id: string, quantity: number) => Promise<void>;
   clearCart: () => Promise<void>;
 }
 
@@ -52,14 +50,6 @@ export function useCart(autoFetch = true): UseCartReturn {
     [loadCart]
   );
 
-  const updateItemQuantity = useCallback(
-    async (id: string, quantity: number) => {
-      await updateCartItem(id, quantity);
-      await loadCart();
-    },
-    [loadCart]
-  );
-
   const clearCart = useCallback(async () => {
     await clearCartRequest();
     await loadCart();
@@ -72,7 +62,6 @@ export function useCart(autoFetch = true): UseCartReturn {
     error,
     refetch: loadCart,
     removeItem,
-    updateItemQuantity,
     clearCart,
   };
 }
