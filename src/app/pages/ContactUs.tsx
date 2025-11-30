@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import Header from '../../../components/storefront/HeaderFollow'
+import Header from '@/components/HeaderFollow'
 
 import Lenis from 'lenis'
 
@@ -20,7 +20,7 @@ export default function ContactUs(){
         <>
         <div className='w-full h-[35vh] flex flex-col bg-black'
                     style={{
-                        backgroundImage: `url('/assets/storefront_assets/patterns.png')`,
+                        backgroundImage: `url('/assets/patterns.png')`,
                         backgroundSize: '150px',
                         backgroundPosition: 'center',
                         }}

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
-import Header from '../../../components/storefront/HeaderFollow';
-import MyCart from '../../../components/storefront/MyCart';
-import Checkout from '../../../components/storefront/Checkout';
-import Payment from '../../../components/storefront/Payment';
+import Header from '@/components/HeaderFollow';
+import MyCart from '@/components/MyCart';
+import Checkout from '@/components/Checkout';
+import Payment from '@/components/Payment';
 import { useCart } from '@/hooks/useCart';
 import { useCheckoutForm } from '@/hooks/useCheckoutForm';
 
@@ -35,7 +35,7 @@ export default function Cart() {
         <>
         <div className='w-full h-[35vh] flex flex-col bg-black'
             style={{
-                backgroundImage: `url('/assets/storefront_assets/patterns.png')`,
+                backgroundImage: `url('/assets/patterns.png')`,
                 backgroundSize: '150px',
                 backgroundPosition: 'center',
                 }}

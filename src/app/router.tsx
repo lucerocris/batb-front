@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router';
 
-import Cart from './pages/storefront/Cart';
-import Landing from "./pages/storefront/Landing";
-import Browse from './pages/storefront/Browse';
-import ContactUs from './pages/storefront/ContactUs'
+import Cart from './pages/Cart';
+import Landing from "./pages/Landing";
+import Browse from './pages/Browse';
+import ContactUs from './pages/ContactUs';
+
 
 export default function AppRouter() {
     return (

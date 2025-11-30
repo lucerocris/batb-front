@@ -163,7 +163,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                 <div className="w-full h-3/5 flex flex-col items-center">
                   <h1 className="text-lg font-semibold mb-2">GCASH</h1>
                   <img
-                    src="/assets/storefront_assets/QR-PAYMENT.jpg?url"
+                    src="/assets/payment_assets/QR-PAYMENT.jpg?url"
                     alt=""
                     className="w-3/4 aspect-square object-center object-cover -mt-2"
                   />
@@ -176,7 +176,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                   <div className="flex flex-col h-full w-full gap-2">
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/storefront_assets/BPI.svg?url"
+                        src="/assets/payment_assets/BPI.svg?url"
                         alt=""
                         className="h-[3vh] w-[6vh] object-cover"
                       />
@@ -184,7 +184,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/storefront_assets/PayPal.svg?url"
+                        src="/assets/payment_assets/PayPal.svg?url"
                         alt=""
                         className="h-[3vh] object-cover"
                       />
@@ -192,7 +192,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/storefront_assets/BDO.svg?url"
+                        src="/assets/payment_assets/BDO.svg?url"
                         alt=""
                         className="h-[3vh] w-[8.7vh] object-cover"
                       />
@@ -299,7 +299,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                           className="h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded"
                         >
                           <img
-                            src={item.product.imageUrl || "/assets/storefront_assets/testimage.jpg?url"}
+                            src={item.product.imageUrl || "/assets/testimage.jpg?url"}
                             className="w-full h-full object-top object-cover"
                             alt={item.product.name}
                           />

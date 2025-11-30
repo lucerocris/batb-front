@@ -1,5 +1,5 @@
-import BrandLogos from './BrandLogos';
-import Header from './HeaderStatic';
+import BrandLogos from '../landing/BrandLogos';
+import Header from '../HeaderStatic';
 
 export default function AboutSection() {
     return (

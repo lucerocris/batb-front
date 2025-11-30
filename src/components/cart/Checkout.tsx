@@ -7,10 +7,6 @@ const currencyFormatter = new Intl.NumberFormat('en-PH', {
     currency: 'PHP',
 });
 
-//WARNING, FETCHING FOR PSGC API USED AI 
-//FIX IF SOMETHING WENT WRONG
-
-// Type definitions for PSGC API
 interface PSGCLocation {
     code: string;
     name: string;
@@ -366,7 +362,7 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                                 className='h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded'
                                             >
                                                 <img
-                                                    src="/assets/storefront_assets/testimage.jpg?url"
+                                                    src="/assets/testimage.jpg?url"
                                                     className='w-full h-full object-top object-cover'
                                                     alt={item.product.name}
                                                 />

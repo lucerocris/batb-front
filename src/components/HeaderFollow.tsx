@@ -1,18 +1,51 @@
+import { useState, useEffect } from 'react';
 import { MenuIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Sheet, SheetTrigger, SheetContent } from '../ui/sheet';
+import { Sheet, SheetTrigger, SheetContent } from './ui/sheet';
 
-export default function Header({ color }: { color: string }) {
+export default function Header() {
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [isInHeroSection, setIsInHeroSection] = useState(true);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const heroSectionHeight = window.innerHeight / 2; 
+            
+            setIsInHeroSection(currentScrollY < heroSectionHeight - 100);
+            
+            if (currentScrollY < lastScrollY || currentScrollY < 10) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+            
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
+
     return (
         <motion.div 
             className="fixed top-0 left-0 w-full h-15 flex items-center px-4 z-50 transition-all duration-300"
+            style={{
+                backgroundColor: isInHeroSection ? 'transparent' : 'rgba(0, 0, 0, 0.6)',
+                backdropFilter: isInHeroSection ? 'none' : 'blur(12px)',
+                WebkitBackdropFilter: isInHeroSection ? 'none' : 'blur(12px)',
+            }}
+            initial={{ y: 0 }}
+            animate={{ y: isVisible ? 0 : -100 }}
             transition={{
                 duration: 0.3,
                 ease: "easeInOut"
             }}
         >
             <div>
-                <img src={`/assets/BATB${color}.svg`} alt="Logo" className="h-8 object-contain ml-5" />
+                <img src="/assets/BATBwhite.svg" alt="Logo" className="h-[3vh] ml-5" />
             </div>
             <Sheet>
                 <SheetTrigger asChild>
@@ -30,7 +63,7 @@ export default function Header({ color }: { color: string }) {
                         }}
                         className='ml-auto mr-5'
                     >
-                        <MenuIcon className={`h-7 w-auto text-${color} cursor-pointer`} />
+                        <MenuIcon className="h-7 w-auto text-white cursor-pointer" />
                     </motion.button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-80 p-0 bg-black bg-opacity-80 border-none backdrop-blur-lg [&>button]:hidden">
