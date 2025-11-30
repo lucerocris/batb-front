@@ -2,11 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '@/hooks/useCart';
 import type { UseCheckoutFormReturn } from '@/hooks/useCheckoutForm';
 import { submitOrder } from '@/services/orderService';
-import QR from '../../../public/assets/storefront_assets/QR-PAYMENT.jpg';
-import PayPal from '../../../public/assets/storefront_assets/PayPal.svg';
-import BPI from '../../../public/assets/storefront_assets/BPI.svg';
-import BDO from '../../../public/assets/storefront_assets/BDO.svg';
-import testImage from '../../../public/assets/storefront_assets/testimage.jpg';
 
 const currencyFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -168,7 +163,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                 <div className="w-full h-3/5 flex flex-col items-center">
                   <h1 className="text-lg font-semibold mb-2">GCASH</h1>
                   <img
-                    src={QR}
+                    src="/assets/storefront_assets/QR-PAYMENT.jpg?url"
                     alt=""
                     className="w-3/4 aspect-square object-center object-cover -mt-2"
                   />
@@ -181,7 +176,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                   <div className="flex flex-col h-full w-full gap-2">
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src={BPI}
+                        src="/assets/storefront_assets/BPI.svg?url"
                         alt=""
                         className="h-[3vh] w-[6vh] object-cover"
                       />
@@ -189,7 +184,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src={PayPal}
+                        src="/assets/storefront_assets/PayPal.svg?url"
                         alt=""
                         className="h-[3vh] object-cover"
                       />
@@ -197,7 +192,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src={BDO}
+                        src="/assets/storefront_assets/BDO.svg?url"
                         alt=""
                         className="h-[3vh] w-[8.7vh] object-cover"
                       />
@@ -304,7 +299,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                           className="h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded"
                         >
                           <img
-                            src={item.product.imageUrl || testImage}
+                            src={item.product.imageUrl || "/assets/storefront_assets/testimage.jpg?url"}
                             className="w-full h-full object-top object-cover"
                             alt={item.product.name}
                           />

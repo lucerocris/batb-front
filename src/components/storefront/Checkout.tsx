@@ -1,8 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { useCart } from '@/hooks/useCart';
 import type { UseCheckoutFormReturn } from '@/hooks/useCheckoutForm';
-import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
 
 const currencyFormatter = new Intl.NumberFormat('en-PH', {
     style: 'currency',
@@ -27,18 +25,18 @@ interface CheckoutProps {
 export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutProps){
     const { items, total, loading: cartLoading, error: cartError } = useCart();
     const { values, updateContact, updateShippingAddress, canProceedToPayment: formReady, validationIssues } = checkoutForm;
-    
+
     // Location states
     const [regions, setRegions] = useState<PSGCLocation[]>([]);
     const [provinces, setProvinces] = useState<PSGCLocation[]>([]);
     const [cities, setCities] = useState<PSGCLocation[]>([]);
     const [barangays, setBarangays] = useState<PSGCLocation[]>([]);
-    
+
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedProvince, setSelectedProvince] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedBarangay, setSelectedBarangay] = useState('');
-    
+
     // Loading states
     const [loadingProvinces, setLoadingProvinces] = useState(false);
     const [loadingCities, setLoadingCities] = useState(false);
@@ -181,176 +179,176 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
     const canProceedToPayment = cartReady && formReady;
     return(
         <>
-        <div className='w-full h-screen bg-white flex flex-col items-center py-5 px-5'>
-            <div className='border-b-4 border-black w-full h-[10vh] flex items-center'>
-                <h1 className='text-3xl font-semibold'>CHECKOUT</h1>
-            </div>
-            <div className='w-full flex items-center justify-center gap-2 my-2'>
-                <p className='text-lg font-semibold text-gray-400'>Cart &gt;</p>
-                <p className='text-lg font-semibold '>Checkout &gt;</p>
-                <p className='text-lg font-semibold text-gray-400'>Payment</p>
-            </div>
-            <div className="w-full h-full flex border-2">
-                <div className="w-2/3 h-full flex flex-col bg-gray-200 p-2">
-                    <div className='w-full h-full bg-white p-4'>
-                        <div className='flex w-full border-b-2 border-black py-1'>
-                            <h1 className='text-xl font-semibold'>CUSTOMER INFORMATION</h1>
-                        </div>
-                        <form action="">
+            <div className='w-full h-screen bg-white flex flex-col items-center py-5 px-5'>
+                <div className='border-b-4 border-black w-full h-[10vh] flex items-center'>
+                    <h1 className='text-3xl font-semibold'>CHECKOUT</h1>
+                </div>
+                <div className='w-full flex items-center justify-center gap-2 my-2'>
+                    <p className='text-lg font-semibold text-gray-400'>Cart &gt;</p>
+                    <p className='text-lg font-semibold '>Checkout &gt;</p>
+                    <p className='text-lg font-semibold text-gray-400'>Payment</p>
+                </div>
+                <div className="w-full h-full flex border-2">
+                    <div className="w-2/3 h-full flex flex-col bg-gray-200 p-2">
+                        <div className='w-full h-full bg-white p-4'>
+                            <div className='flex w-full border-b-2 border-black py-1'>
+                                <h1 className='text-xl font-semibold'>CUSTOMER INFORMATION</h1>
+                            </div>
+                            <form action="">
+                                <div className='grid grid-cols-2 mt-2 gap-5'>
+                                    <div className='name flex flex-col'>
+                                        <label className='font-semibold'> First Name</label>
+                                        <input
+                                            type="text"
+                                            value={values.shippingAddress.firstName}
+                                            onChange={(e) => updateShippingAddress('firstName', e.target.value)}
+                                            placeholder='John'
+                                            className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
+                                        />
+                                    </div>
+                                    <div className='name flex flex-col'>
+                                        <label className='font-semibold'> Last Name</label>
+                                        <input
+                                            type="text"
+                                            value={values.shippingAddress.lastName}
+                                            onChange={(e) => updateShippingAddress('lastName', e.target.value)}
+                                            placeholder='Doe'
+                                            className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
+                                        />
+                                    </div>
+                                    <div className='name flex flex-col'>
+                                        <label className='font-semibold'> Email</label>
+                                        <input
+                                            type="email"
+                                            value={values.contact.email}
+                                            onChange={(e) => updateContact('email', e.target.value)}
+                                            placeholder='customer@example.com'
+                                            className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
+                                        />
+                                    </div>
+                                    <div className='name flex flex-col'>
+                                        <label className='font-semibold'> Phone</label>
+                                        <input
+                                            type="tel"
+                                            value={values.shippingAddress.phone ? `(+63) ${formatPhoneNumber(values.shippingAddress.phone)}` : ''}
+                                            onChange={(e) => {
+                                                const value = e.target.value.replace('(+63) ', '').replace(/\D/g, '');
+                                                updateShippingAddress('phone', value);
+                                            }}
+                                            placeholder='(+63) 9XX XXX XXXX'
+                                            className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
+                                        />
+                                    </div>
+                                </div>
+                            </form>
+                            <div className='flex w-full border-b-2 border-black py-1 mt-4'>
+                                <h1 className='text-xl font-semibold'>ADDRESS INFORMATION</h1>
+                            </div>
+
                             <div className='grid grid-cols-2 mt-2 gap-5'>
-                                <div className='name flex flex-col'>
-                                    <label className='font-semibold'> First Name</label>
-                                    <input 
-                                        type="text" 
-                                        value={values.shippingAddress.firstName}
-                                        onChange={(e) => updateShippingAddress('firstName', e.target.value)}
-                                        placeholder='John' 
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>Street Address</label>
+                                    <input
+                                        type="text"
+                                        value={values.shippingAddress.addressLine1}
+                                        onChange={(e) => updateShippingAddress('addressLine1', e.target.value)}
+                                        placeholder='123 Street Name, Block/Lot'
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                     />
                                 </div>
-                                <div className='name flex flex-col'>
-                                    <label className='font-semibold'> Last Name</label>
-                                    <input 
-                                        type="text" 
-                                        value={values.shippingAddress.lastName}
-                                        onChange={(e) => updateShippingAddress('lastName', e.target.value)}
-                                        placeholder='Doe' 
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>ZIP Code</label>
+                                    <input
+                                        type="text"
+                                        value={values.shippingAddress.postalCode}
+                                        onChange={(e) => updateShippingAddress('postalCode', e.target.value)}
+                                        placeholder='1234'
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                     />
                                 </div>
-                                <div className='name flex flex-col'>
-                                    <label className='font-semibold'> Email</label>
-                                    <input 
-                                        type="email" 
-                                        value={values.contact.email}
-                                        onChange={(e) => updateContact('email', e.target.value)}
-                                        placeholder='customer@example.com' 
+
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>Region</label>
+                                    <select
+                                        value={selectedRegion}
+                                        onChange={handleRegionChange}
                                         className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
-                                    />
+                                    >
+                                        <option value="">Select Region</option>
+                                        {regions.map((region) => (
+                                            <option key={region.code} value={region.code}>
+                                                {region.name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
-                                <div className='name flex flex-col'>
-                                    <label className='font-semibold'> Phone</label>
-                                    <input 
-                                        type="tel" 
-                                        value={values.shippingAddress.phone ? `(+63) ${formatPhoneNumber(values.shippingAddress.phone)}` : ''}
-                                        onChange={(e) => {
-                                            const value = e.target.value.replace('(+63) ', '').replace(/\D/g, '');
-                                            updateShippingAddress('phone', value);
-                                        }}
-                                        placeholder='(+63) 9XX XXX XXXX' 
-                                        className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
-                                    />
-                                </div>  
-                            </div>
-                        </form>
-                         <div className='flex w-full border-b-2 border-black py-1 mt-4'>
-                            <h1 className='text-xl font-semibold'>ADDRESS INFORMATION</h1>
-                        </div>
-                        
-                        <div className='grid grid-cols-2 mt-2 gap-5'>
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>Street Address</label>
-                                <input 
-                                    type="text" 
-                                    value={values.shippingAddress.addressLine1}
-                                    onChange={(e) => updateShippingAddress('addressLine1', e.target.value)}
-                                    placeholder='123 Street Name, Block/Lot' 
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
-                                />
-                            </div>
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>ZIP Code</label>
-                                <input 
-                                    type="text" 
-                                    value={values.shippingAddress.postalCode}
-                                    onChange={(e) => updateShippingAddress('postalCode', e.target.value)}
-                                    placeholder='1234' 
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
-                                />
-                            </div>
-                            
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>Region</label>
-                                <select 
-                                    value={selectedRegion}
-                                    onChange={handleRegionChange}
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
-                                >
-                                    <option value="">Select Region</option>
-                                    {regions.map((region) => (
-                                        <option key={region.code} value={region.code}>
-                                            {region.name}
+
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>Province</label>
+                                    <select
+                                        value={selectedProvince}
+                                        onChange={handleProvinceChange}
+                                        disabled={!selectedRegion || loadingProvinces}
+                                        className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
+                                    >
+                                        <option value="">
+                                            {loadingProvinces ? 'Loading...' : 'Select Province'}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
-                            
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>Province</label>
-                                <select 
-                                    value={selectedProvince}
-                                    onChange={handleProvinceChange}
-                                    disabled={!selectedRegion || loadingProvinces}
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
-                                >
-                                    <option value="">
-                                        {loadingProvinces ? 'Loading...' : 'Select Province'}
-                                    </option>
-                                    {provinces.map((province) => (
-                                        <option key={province.code} value={province.code}>
-                                            {province.name}
+                                        {provinces.map((province) => (
+                                            <option key={province.code} value={province.code}>
+                                                {province.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>City/Municipality</label>
+                                    <select
+                                        value={selectedCity}
+                                        onChange={handleCityChange}
+                                        disabled={!selectedProvince || loadingCities}
+                                        className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
+                                    >
+                                        <option value="">
+                                            {loadingCities ? 'Loading...' : 'Select City/Municipality'}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
-                            
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>City/Municipality</label>
-                                <select 
-                                    value={selectedCity}
-                                    onChange={handleCityChange}
-                                    disabled={!selectedProvince || loadingCities}
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
-                                >
-                                    <option value="">
-                                        {loadingCities ? 'Loading...' : 'Select City/Municipality'}
-                                    </option>
-                                    {cities.map((city) => (
-                                        <option key={city.code} value={city.code}>
-                                            {city.name}
+                                        {cities.map((city) => (
+                                            <option key={city.code} value={city.code}>
+                                                {city.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className='flex flex-col'>
+                                    <label className='font-semibold'>Barangay</label>
+                                    <select
+                                        value={selectedBarangay}
+                                        onChange={handleBarangayChange}
+                                        disabled={!selectedCity || loadingBarangays}
+                                        className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
+                                    >
+                                        <option value="">
+                                            {loadingBarangays ? 'Loading...' : 'Select Barangay'}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
-                            
-                            <div className='flex flex-col'>
-                                <label className='font-semibold'>Barangay</label>
-                                <select 
-                                    value={selectedBarangay}
-                                    onChange={handleBarangayChange}
-                                    disabled={!selectedCity || loadingBarangays}
-                                    className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0 disabled:bg-gray-100'
-                                >
-                                    <option value="">
-                                        {loadingBarangays ? 'Loading...' : 'Select Barangay'}
-                                    </option>
-                                    {barangays.map((barangay) => (
-                                        <option key={barangay.code} value={barangay.code}>
-                                            {barangay.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                        {barangays.map((barangay) => (
+                                            <option key={barangay.code} value={barangay.code}>
+                                                {barangay.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className='w-1/3 h-full ml-1'>
-                    <div className='w-full flex flex-col bg-gray-200 p-2'>
-                            <div className='w-full h-min-[20vh] bg-white p-2 pb-0 pt-3'> 
+                    <div className='w-1/3 h-full ml-1'>
+                        <div className='w-full flex flex-col bg-gray-200 p-2'>
+                            <div className='w-full h-min-[20vh] bg-white p-2 pb-0 pt-3'>
                                 <div className='flex flex-col w-full'>
 
                                     <h1 className='text-xl font-semibold'>Your Orders</h1>
-                                    <span className='text-sm -mt-1'>Checkout to proceed with payment.</span>                        
+                                    <span className='text-sm -mt-1'>Checkout to proceed with payment.</span>
 
                                     <div className='max-h-[8vh] w-full mt-3 flex gap-2'>
                                         {cartLoading && (
@@ -363,31 +361,22 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                             <p className='text-sm text-gray-400'>Items will appear here once your cart is ready.</p>
                                         )}
                                         {!cartLoading && !cartError && previewItems.map((item) => (
-                                            <div 
+                                            <div
                                                 key={item.id}
                                                 className='h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded'
-                                            > 
-                                                <img 
-                                                    src={item.product.imageUrl || testImage} 
-                                                    className='w-full h-full object-top object-cover' 
+                                            >
+                                                <img
+                                                    src="/assets/storefront_assets/testimage.jpg?url"
+                                                    className='w-full h-full object-top object-cover'
                                                     alt={item.product.name}
                                                 />
                                             </div>
                                         ))}
                                     </div>
-                                    <div className='h-[8vh] aspect-square
-                                    hover:scale-102 transition-all duration-300'> 
-                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
-                                    </div>
-                                    <div className='h-[8vh] aspect-square
-                                    hover:scale-102 transition-all duration-300'> 
-                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
-                                    </div>
-                                </div>
 
                                 </div>
 
-                                <div className='w-full mt-2 border-t-2 border-black pt-2 flex flex-col gap-2'>   
+                                <div className='w-full mt-2 border-t-2 border-black pt-2 flex flex-col gap-2'>
                                     <div className='flex items-center justify-between'>
                                         <h1 className='text-md font-extrabold'>Subtotal:</h1>
                                         <p className='text-right font-semibold'>
@@ -411,55 +400,53 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                     </div>
                                 </div>
 
-                                <div className='w-full flex mt-2 border-t-2 border-black py-2'>   
+                                <div className='w-full flex mt-2 border-t-2 border-black py-2'>
                                     <h1 className='font-bold '>Total:</h1>
                                     <p className='w-1/2 ml-auto min-h-10 flex flex-col items-end'>
                                         {cartLoading ? '...' : currencyFormatter.format(total)}
-                                    </p>        
+                                    </p>
                                 </div>
-                            
+
 
                             </div>
-                        <div className='w-full h-[10vh] flex p-1 bg-white'>
-                            <button 
-                                onClick={onPayment}
-                                disabled={!canProceedToPayment}
-                                className='h-full w-full bg-black text-white items-center justify-center flex
+                            <div className='w-full h-[10vh] flex p-1 bg-white'>
+                                <button
+                                    onClick={onPayment}
+                                    disabled={!canProceedToPayment}
+                                    className='h-full w-full bg-black text-white items-center justify-center flex
                                 duration-300 hover:text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
-                            
-                            > PROCEED </button>
-                        </div>
-                        {!canProceedToPayment && (
-                            <div className='text-xs text-gray-600 mt-2 space-y-1 text-left'>
-                                <ul className='list-disc list-inside space-y-0.5'>
-                                    {cartLoading && <li>Fetching your cart...</li>}
-                                    {!cartLoading && cartError && <li>Resolve the cart issue to continue.</li>}
-                                    {!cartLoading && !cartError && !items.length && <li>Add items to your cart to proceed.</li>}
-                                    {cartReady && !formReady &&
-                                        (validationIssues.length ? validationIssues : ['Complete your customer and address information.'])
-                                            .map((issue, index) => (
-                                                <li key={`${issue}-${index}`}>{issue}</li>
-                                            ))}
-                                </ul>
+
+                                > PROCEED </button>
                             </div>
-                        )}
-                        {onBack && (
-                            <div className='w-full h-[8vh] flex p-1 bg-white'>
-                                <button 
-                                    onClick={onBack}
-                                    className='h-full w-full bg-gray-500 text-white items-center justify-center flex
+                            {!canProceedToPayment && (
+                                <div className='text-xs text-gray-600 mt-2 space-y-1 text-left'>
+                                    <ul className='list-disc list-inside space-y-0.5'>
+                                        {cartLoading && <li>Fetching your cart...</li>}
+                                        {!cartLoading && cartError && <li>Resolve the cart issue to continue.</li>}
+                                        {!cartLoading && !cartError && !items.length && <li>Add items to your cart to proceed.</li>}
+                                        {cartReady && !formReady &&
+                                            (validationIssues.length ? validationIssues : ['Complete your customer and address information.'])
+                                                .map((issue, index) => (
+                                                    <li key={`${issue}-${index}`}>{issue}</li>
+                                                ))}
+                                    </ul>
+                                </div>
+                            )}
+                            {onBack && (
+                                <div className='w-full h-[8vh] flex p-1 bg-white'>
+                                    <button
+                                        onClick={onBack}
+                                        className='h-full w-full bg-gray-500 text-white items-center justify-center flex
                                     duration-300 hover:bg-gray-600 cursor-pointer'
-                                > 
-                                    ← GO BACK 
-                                </button>
-                            </div>
-                        )}
+                                    >
+                                        ← GO BACK
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
-            </div>            
-
-            
-        </div>
+            </div>
         </>
     )
 }

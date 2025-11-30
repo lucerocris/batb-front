@@ -39,7 +39,7 @@ export default function ContactUs(){
                         </div>
                     </div>
             </div>
-        <div className='w-full h-[75vh] p-2 pt-10 flex'>
+        <div className='w-full  p-2 pt-10 flex'>
             <div className='w-full h-full flex'>
                 <div className='w-2/3 h-full flex flex-col p-6'>
                     <div className='mb-4'>
