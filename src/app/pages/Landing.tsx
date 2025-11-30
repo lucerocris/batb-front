@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import HeroSection from '../../../components/storefront/HeroSection';
-import AboutSection from '../../../components/storefront/AboutSection';
-import BrowseSection from '../../../components/storefront/BrowseSection';
+import HeroSection from '../../components/landing/HeroSection';
+import AboutSection from '../../components/landing/AboutSection';
+import BrowseSection from '../../components/landing/BrowseSection';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 

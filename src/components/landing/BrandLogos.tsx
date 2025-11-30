@@ -6,14 +6,14 @@ interface BrandLogo {
 }
 
 const brandLogos: BrandLogo[] = [
-    { src: "/assets/storefront_assets/brandlogos/DKNY.svg", alt: "DKNY" },
-    { src: "/assets/storefront_assets/brandlogos/HM.svg", alt: "H&M" },
-    { src: "/assets/storefront_assets/brandlogos/LEVI.svg", alt: "LEVI" },
-    { src: "/assets/storefront_assets/brandlogos/UNIQLO.svg", alt: "UNIQLO" },
-    { src: "/assets/storefront_assets/brandlogos/ZARA.svg", alt: "ZARA" },
-    { src: "/assets/storefront_assets/brandlogos/TH.svg", alt: "TH" },
-    { src: "/assets/storefront_assets/brandlogos/NBA.svg", alt: "NBA" },
-    { src: "/assets/storefront_assets/brandlogos/NEXT.svg", alt: "NEXT" },
+    { src: "/assets/brandlogos/DKNY.svg", alt: "DKNY" },
+    { src: "/assets/brandlogos/HM.svg", alt: "H&M" },
+    { src: "/assets/brandlogos/LEVI.svg", alt: "LEVI" },
+    { src: "/assets/brandlogos/UNIQLO.svg", alt: "UNIQLO" },
+    { src: "/assets/brandlogos/ZARA.svg", alt: "ZARA" },
+    { src: "/assets/brandlogos/TH.svg", alt: "TH" },
+    { src: "/assets/brandlogos/NBA.svg", alt: "NBA" },
+    { src: "/assets/brandlogos/NEXT.svg", alt: "NEXT" },
 ];
 
 export default function BrandLogos() {

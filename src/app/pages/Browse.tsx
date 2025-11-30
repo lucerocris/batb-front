@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useProducts} from "@/hooks/useProducts.ts";
-import Header from '../../../components/storefront/HeaderFollow';
+import { useProducts } from '@/hooks/useProducts';
+import Header from '@/components/HeaderFollow';
 import Lenis from 'lenis';
-import ItemContainer from '../../../components/storefront/ItemContainer';
-import ProductModal from '../../../components/storefront/ProductModal';
+import ItemContainer from '../../components/browse/ItemContainer';
+import ProductModal from '../../components/browse/ProductModal';
 
 export default function Browse(){
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Browse(){
         <>
             <div className='w-full h-[35vh] flex flex-col bg-black'
                 style={{
-                    backgroundImage: `url('/assets/storefront_assets/patterns.png')`,
+                    backgroundImage: `url('/assets/patterns.png')`,
                     backgroundSize: '150px',
                     backgroundPosition: 'center',
                  }}
