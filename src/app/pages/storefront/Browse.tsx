@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useProducts } from '../../../hooks/useProducts';
+import { useProducts} from "@/hooks/useProducts.ts";
 import Header from '../../../components/storefront/HeaderFollow';
 import Lenis from 'lenis';
 import ItemContainer from '../../../components/storefront/ItemContainer';
