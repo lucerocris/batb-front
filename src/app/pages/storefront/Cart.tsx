@@ -33,12 +33,11 @@ export default function Cart() {
 
     return (
         <>
-            <div
-                className='w-full h-[35vh] flex flex-col bg-black'
-                style={{
-                    backgroundImage: `url('../../../public/assets/storefront_assets/patterns.png')`,
-                    backgroundSize: '150px',
-                    backgroundPosition: 'center',
+        <div className='w-full h-[35vh] flex flex-col bg-black'
+            style={{
+                backgroundImage: `url('/assets/storefront_assets/patterns.png')`,
+                backgroundSize: '150px',
+                backgroundPosition: 'center',
                 }}
             >
                 <div className='absolute h-[35vh] inset-0 bg-black opacity-85'></div>
