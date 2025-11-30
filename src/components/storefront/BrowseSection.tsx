@@ -1,11 +1,11 @@
-import browseBg from '../../../public/assets/storefront_assets/patterns.png';
+// background uses public asset at /assets/storefront_assets/patterns.png
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from './HeaderStatic';
 
 export default function BrowseSection() {
     return (
         <div className='relative w-full h-[100vh] flex flex-col items-center'
-            style={{ backgroundImage: `url(${browseBg})`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
+            style={{ backgroundImage: `url('/assets/storefront_assets/patterns.png')`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
             <div className='w-full h-full bg-black opacity-85 absolute pointer-events-none'></div>
             <div className='w-full h-full relative py-20'>
                 <Header color="white"/>

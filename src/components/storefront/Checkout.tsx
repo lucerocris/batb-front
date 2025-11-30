@@ -375,6 +375,15 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                             </div>
                                         ))}
                                     </div>
+                                    <div className='h-[8vh] aspect-square
+                                    hover:scale-102 transition-all duration-300'> 
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
+                                    </div>
+                                    <div className='h-[8vh] aspect-square
+                                    hover:scale-102 transition-all duration-300'> 
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
+                                    </div>
+                                </div>
 
                                 </div>
 
