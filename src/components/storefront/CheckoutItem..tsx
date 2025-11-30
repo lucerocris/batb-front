@@ -1,4 +1,4 @@
-import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
+// use public assets via absolute path '/assets/...'
 import { LucideX } from "lucide-react";
 
 export default function(){
@@ -6,7 +6,7 @@ export default function(){
         <div className='w-full flex flex-col p-2'>
             <div className='w-full h-[20vh] bg-white flex justify-between hover:scale-98 transition-all duration-1000 group'>
                 <div className='h-full aspect-square p-1.5'>
-                    <img src={testImage} alt="testProduct" className='h-full w-full object-cover object-top group-hover:object-center transition-all duration-300'/>
+                    <img src={'/assets/storefront_assets/testimage.jpg'} alt="testProduct" className='h-full w-full object-cover object-top group-hover:object-center transition-all duration-300'/>
                 </div>
                 <div className='ml-5 h-full w-full flex'>
                     <div className='h-full w-2/3 flex flex-col py-5'>

@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
+// use public assets via absolute path '/assets/...'
 
 //WARNING, FETCHING FOR PSGC API USED AI 
 //FIX IF SOMETHING WENT WRONG
@@ -322,19 +322,19 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <span className='text-sm -mt-1'>Checkout to proceed with payment.</span>                        
 
                                     <div className='max-h-[8vh] w-full mt-3 flex gap-2'>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
+                                    <div className='h-[8vh] aspect-square
+                                    hover:scale-102 transition-all duration-300'> 
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
                                     </div>
+                                    <div className='h-[8vh] aspect-square
+                                    hover:scale-102 transition-all duration-300'> 
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
+                                    </div>
+                                    <div className='h-[8vh] aspect-square
+                                    hover:scale-102 transition-all duration-300'> 
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
+                                    </div>
+                                </div>
 
                                 </div>
 

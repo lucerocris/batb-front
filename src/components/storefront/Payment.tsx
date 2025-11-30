@@ -1,9 +1,4 @@
 import { useState } from 'react';
-import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
-import QR from '../../../public/assets/storefront_assets/QR-PAYMENT.jpg'
-import PayPal from '../../../public/assets/storefront_assets/PayPal.svg'
-import BPI from '../../../public/assets/storefront_assets/BPI.svg'
-import BDO from '../../../public/assets/storefront_assets/BDO.svg'
 
 interface PaymentProps {
     onBack?: () => void;
@@ -32,7 +27,7 @@ export default function Payment({ onBack }: PaymentProps){
                             </h1>
                             <div className='w-full h-3/5 flex flex-col items-center'>
                                 <h1 className='text-lg font-semibold mb-2'>GCASH</h1>
-                                <img src={QR} alt="" className='w-3/4 aspect-square object-center object-cover -mt-2'/>
+                                <img src={'/assets/storefront_assets/QR-PAYMENT.jpg'} alt="" className='w-3/4 aspect-square object-center object-cover -mt-2'/>
                                 <p className='text-base font-bold mt-1'>NIO C.</p>
                                 <span className='text-sm'>09053415915</span>                            
                             </div>
@@ -43,15 +38,15 @@ export default function Payment({ onBack }: PaymentProps){
                                 </h1>
                                 <div className='flex flex-col h-full w-full gap-2'>
                                     <div className='flex w-full justify-between items-center px-2'>
-                                        <img src={BPI} alt="" className='h-[3vh] w-[6vh] object-cover' />
+                                        <img src={'/assets/storefront_assets/BPI.svg'} alt="" className='h-[3vh] w-[6vh] object-cover' />
                                         <p className='text-sm font-mono'>25492241966</p>
                                     </div>
                                     <div className='flex w-full justify-between items-center px-2'>
-                                        <img src={PayPal} alt="" className='h-[3vh] object-cover' />
+                                        <img src={'/assets/storefront_assets/PayPal.svg'} alt="" className='h-[3vh] object-cover' />
                                         <p className='text-sm font-mono'>4658454211</p>
                                     </div>
                                     <div className='flex w-full justify-between items-center px-2'>
-                                        <img src={BDO} alt="" className='h-[3vh] w-[8.7vh] object-cover' />
+                                        <img src={'/assets/storefront_assets/BDO.svg'} alt="" className='h-[3vh] w-[8.7vh] object-cover' />
                                         <p className='text-sm font-mono'>1648553294959</p>
                                     </div>
                                 </div>
@@ -121,15 +116,15 @@ export default function Payment({ onBack }: PaymentProps){
                                 <div className='max-h-[8vh] w-full mt-3 flex gap-2'>
                                     <div className='h-[8vh] aspect-square
                                     hover:scale-102 transition-all duration-300'> 
-                                        <img src={testImage} className='w-full h-full object-top object-cover' />
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
                                     </div>
                                     <div className='h-[8vh] aspect-square
                                     hover:scale-102 transition-all duration-300'> 
-                                        <img src={testImage} className='w-full h-full object-top object-cover' />
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
                                     </div>
                                     <div className='h-[8vh] aspect-square
                                     hover:scale-102 transition-all duration-300'> 
-                                        <img src={testImage} className='w-full h-full object-top object-cover' />
+                                        <img src={'/assets/storefront_assets/testimage.jpg'} className='w-full h-full object-top object-cover' />
                                     </div>
                                 </div>
 

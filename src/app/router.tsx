@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router';
 
 import Cart from './pages/storefront/Cart';
-import Landing from "@/app/pages/storefront/Landing.tsx";
+import Landing from "./pages/storefront/Landing";
 import Browse from './pages/storefront/Browse';
+import ContactUs from './pages/storefront/ContactUs'
 
 export default function AppRouter() {
     return (
         <Routes>
-            {/* STOREFRONT */}
             <Route 
                 path="/" 
                 element={<Landing />} 
@@ -22,6 +22,12 @@ export default function AppRouter() {
                 path="/cart"
                 element={
                     <Cart />
+                }
+            />
+            <Route 
+                path='/contact-us'
+                element={
+                    <ContactUs />
                 }
             />
         </Routes>
