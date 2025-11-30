@@ -1,6 +1,12 @@
 
 import { useState, useEffect } from 'react';
+import { useCart } from '@/hooks/useCart';
 import testImage from '../../../public/assets/storefront_assets/testimage.jpg'
+
+const currencyFormatter = new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: 'PHP',
+});
 
 //WARNING, FETCHING FOR PSGC API USED AI 
 //FIX IF SOMETHING WENT WRONG
@@ -17,6 +23,7 @@ interface MyCartProps {
 }
 
 export default function({ onPayment, onBack }: MyCartProps){
+    const { items, total, loading: cartLoading, error: cartError } = useCart();
     // Form states
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -148,6 +155,8 @@ export default function({ onPayment, onBack }: MyCartProps){
         }
         return digits;
     };
+    const previewItems = items.slice(0, 3);
+    const canProceedToPayment = !cartLoading && !cartError && items.length > 0;
     return(
         <>
         <div className='w-full h-screen bg-white flex flex-col items-center py-5 px-5'>
@@ -322,36 +331,59 @@ export default function({ onPayment, onBack }: MyCartProps){
                                     <span className='text-sm -mt-1'>Checkout to proceed with payment.</span>                        
 
                                     <div className='max-h-[8vh] w-full mt-3 flex gap-2'>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
-                                        <div className='h-[8vh] aspect-square
-                                        hover:scale-102 transition-all duration-300'> 
-                                            <img src={testImage} className='w-full h-full object-top object-cover' />
-                                        </div>
+                                        {cartLoading && (
+                                            <p className='text-sm text-gray-500'>Loading cart...</p>
+                                        )}
+                                        {!cartLoading && cartError && (
+                                            <p className='text-sm text-red-500'>Failed to load cart. Please try again.</p>
+                                        )}
+                                        {!cartLoading && !cartError && !previewItems.length && (
+                                            <p className='text-sm text-gray-400'>Items will appear here once your cart is ready.</p>
+                                        )}
+                                        {!cartLoading && !cartError && previewItems.map((item) => (
+                                            <div 
+                                                key={item.id}
+                                                className='h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded'
+                                            > 
+                                                <img 
+                                                    src={item.product.imageUrl || testImage} 
+                                                    className='w-full h-full object-top object-cover' 
+                                                    alt={item.product.name}
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
 
                                 </div>
 
-                                <div className='w-full flex mt-2 border-t-2 border-black py-2'>   
-                                    <h1 className='text-md font-extrabold'>Subtotal:</h1>
-                                    <div className='w-1/2 ml-auto min-h-10 flex flex-col items-end'>
-                                        <p>800.00</p>
-                                        <p>673.23</p>
-                                        <p>212.00</p>
-                                        <p>532.54</p>
-                                    </div>        
+                                <div className='w-full mt-2 border-t-2 border-black pt-2 flex flex-col gap-2'>   
+                                    <div className='flex items-center justify-between'>
+                                        <h1 className='text-md font-extrabold'>Subtotal:</h1>
+                                        <p className='text-right font-semibold'>
+                                            {cartLoading ? '...' : currencyFormatter.format(total)}
+                                        </p>
+                                    </div>
+                                    <div className='flex flex-col gap-1 max-h-40 overflow-y-auto pr-1'>
+                                        {!cartLoading && !cartError && items.map((item) => (
+                                            <div key={item.id} className='flex justify-between text-sm text-gray-600'>
+                                                <span className='max-w-[60%] truncate'>
+                                                    {item.quantity} × {item.product.name}
+                                                </span>
+                                                <span>
+                                                    {currencyFormatter.format(item.subtotal ?? item.price * item.quantity)}
+                                                </span>
+                                            </div>
+                                        ))}
+                                        {!cartLoading && !cartError && !items.length && (
+                                            <p className='text-sm text-gray-500'>No items to display.</p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className='w-full flex mt-2 border-t-2 border-black py-2'>   
                                     <h1 className='font-bold '>Total:</h1>
                                     <p className='w-1/2 ml-auto min-h-10 flex flex-col items-end'>
-                                        1,417.77
+                                        {cartLoading ? '...' : currencyFormatter.format(total)}
                                     </p>        
                                 </div>
                             
@@ -360,11 +392,19 @@ export default function({ onPayment, onBack }: MyCartProps){
                         <div className='w-full h-[10vh] flex p-1 bg-white'>
                             <button 
                                 onClick={onPayment}
+                                disabled={!canProceedToPayment}
                                 className='h-full w-full bg-black text-white items-center justify-center flex
-                                duration-300 hover:text-lg cursor-pointer'
+                                duration-300 hover:text-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
                             
                             > PROCEED </button>
                         </div>
+                        {!canProceedToPayment && (
+                            <p className='text-xs text-gray-500 text-center mt-1'>
+                                {cartLoading && 'Fetching your cart...'}
+                                {!cartLoading && cartError && 'Resolve the cart issue to continue.'}
+                                {!cartLoading && !cartError && !items.length && 'Add items to your cart to proceed.'}
+                            </p>
+                        )}
                         {onBack && (
                             <div className='w-full h-[8vh] flex p-1 bg-white'>
                                 <button 
