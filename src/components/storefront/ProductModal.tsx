@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Product } from '../../types/product';
+import { addToCart } from '@/services/cartService';
 
 interface ProductModalProps {
     isOpen: boolean;
@@ -9,6 +10,8 @@ interface ProductModalProps {
 
 export default function ProductModal({ isOpen, onClose, product }: ProductModalProps) {
     const [isVisible, setIsVisible] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
+    const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -17,6 +20,10 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
             setTimeout(() => setIsVisible(false), 10);
         }
     }, [isOpen]);
+
+    useEffect(() => {
+        setFeedback(null);
+    }, [product?.id, isOpen]);
 
     if (!isOpen || !product) return null;
 
@@ -31,6 +38,30 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
     const imagesToShow = variantImages.length > 0 
         ? variantImages.map(v => v.imageUrl) 
         : [product.imageUrl, product.imageUrl, product.imageUrl, product.imageUrl];
+
+    const handleAddToCart = async () => {
+        if (!product || isAdding) return;
+
+        try {
+            setIsAdding(true);
+            setFeedback(null);
+            const response = await addToCart({
+                productId: product.id,
+                size: null,
+            });
+            setFeedback({
+                type: 'success',
+                message: response.message || 'Added to cart',
+            });
+        } catch (error) {
+            setFeedback({
+                type: 'error',
+                message: error instanceof Error ? error.message : 'Failed to add to cart',
+            });
+        } finally {
+            setIsAdding(false);
+        }
+    };
 
     return (
         <div 
@@ -110,15 +141,36 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                                 ₱{product.basePrice}
                             </span>
                         )}
-                        <div className='flex w-1/2 ml-auto'>
-                            <h1 className='text-lg w-1/2 text-center py-4 bg-white mr-4 transition-all duration-300
-                            hover:bg-black hover:text-white cursor-pointer font-bold'>
-                                ADD TO CART
-                            </h1>
-                            <h1 className='text-white text-lg w-1/2 text-center py-4 bg-black transition-all duration-300
-                            hover:bg-white hover:text-black cursor-pointer border-2 border-white font-bold'>
-                                BUY NOW
-                            </h1>
+                        <div className='flex w-1/2 ml-auto flex-col items-end'>
+                            <div className='flex w-full items-center mb-3'>
+                                <p className='text-sm uppercase tracking-wide text-white/80'>
+                                    Single-item pullout
+                                </p>
+                            </div>
+                            <div className='flex w-full'>
+                                <button
+                                    type='button'
+                                    onClick={handleAddToCart}
+                                    disabled={isAdding}
+                                    className={`text-lg w-1/2 text-center py-4 bg-white mr-4 transition-all duration-300 font-bold ${
+                                        isAdding ? 'opacity-60 cursor-not-allowed' : 'hover:bg-black hover:text-white cursor-pointer'
+                                    }`}
+                                >
+                                    {isAdding ? 'ADDING...' : 'ADD TO CART'}
+                                </button>
+                                <button
+                                    type='button'
+                                    className='text-white text-lg w-1/2 text-center py-4 bg-black transition-all duration-300
+                                    hover:bg-white hover:text-black cursor-pointer border-2 border-white font-bold'
+                                >
+                                    BUY NOW
+                                </button>
+                            </div>
+                            {feedback && (
+                                <p className={`mt-2 text-sm ${feedback.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                                    {feedback.message}
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
