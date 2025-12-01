@@ -29,7 +29,8 @@ export default function BrowseSection() {
             const percentage = (mouseDelta / maxDelta) * -100;
             const prevPercentage = parseFloat(track.dataset.prevPercentage || "0");
             const nextPercentageUnclamped = prevPercentage + percentage;
-            const nextPercentage = Math.max(-55, Math.min(nextPercentageUnclamped, 5));
+            const nextPercentage = Math.max(-61, Math.min(nextPercentageUnclamped, 1
+            ));
 
             track.dataset.percentage = String(nextPercentage);
 
@@ -39,8 +40,9 @@ export default function BrowseSection() {
 
             for(const image of track.getElementsByClassName("image")) {
                 image.animate({
-                objectPosition: `${100 + nextPercentage}% center`
+                    objectPosition: `50% ${100 + nextPercentage}%`
                 }, { duration: 1200, fill: "forwards" });
+
             }
             // use `percentage` to update the UI (e.g. transform the track) as needed
         };
@@ -83,13 +85,13 @@ export default function BrowseSection() {
                             {products.map((product: any, index: number) => (
                                 <div
                                 key={index}
-                                className="w-[40vmin] h-[56vmin] overflow-hidden flex-shrink-0"
+                                className="w-[50vmin] h-[56vmin] overflow-hidden flex-shrink-0"
                                 >
                                 <img
                                     src={product.imageUrl}
                                     alt={product.name || `Product ${index + 1}`}
                                     draggable="false"
-                                    className="image w-full h-full object-cover object-center scale-200 select-none"
+                                    className="image w-full h-full object-cover scale-150 select-none"
                                 />
                                 </div>
                             ))}
