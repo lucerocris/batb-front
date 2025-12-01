@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 import { useEffect, useState } from 'react';
-import Header from '../../../components/storefront/HeaderFollow';
+import Header from '../../components/HeaderFollow';
 
 import Lenis from 'lenis';
 import { useContactForm } from '@/hooks/useContactForm';

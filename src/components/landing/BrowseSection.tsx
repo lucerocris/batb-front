@@ -1,10 +1,25 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '../HeaderStatic';
+import { useProducts } from '@/hooks/useProducts';
+import { useEffect } from 'react';
 
 export default function BrowseSection() {
+    const { products = [], loading, error } = useProducts();
+
+    const track = document.getElementById("image-track");
+
+    useEffect(() => {
+        window.onmousedown = (e) => {
+            e.clientX;
+        };
+
+        return () => {
+            window.onmousedown = null;
+        };
+    }, []);
+
     return (
-        <div className='relative w-full h-[100vh] flex flex-col items-center'
-            style={{ backgroundImage: `url('/assets/patterns.png')`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
+        <div className='relative w-full h-[100vh] flex flex-col items-center pb-10'
+            style={{ backgroundImage: `url('../../../public/assets/patterns.png')`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
             <div className='w-full h-full bg-black opacity-85 absolute pointer-events-none'></div>
             <div className='w-full h-full relative py-20'>
                 <Header color="white"/>
@@ -17,16 +32,24 @@ export default function BrowseSection() {
                         It's as simple as that.
                     </p>
                 </div>
-                <div className='w-full h-full flex items-center '>
-                    <div className='flex-5 flex items-center justify-center'>
-                        <ChevronLeft className='text-white h-20 w-auto hover:scale-111 hover:text-gray-400 transition-transform duration-300' />
-                    </div>
-                    <div className='h-full flex items-center w-full justify-center '>
-                        
-                    </div>
-                    <div className='flex-5 flex items-center justify-center'>
-                        <ChevronRight className='text-white h-20 w-auto hover:scale-111 hover:text-gray-400 transition-transform duration-300' />
-                    </div>
+                <div className='w-full h-full flex items-center justify-center px-7'>
+                    {loading ? (
+                        <div className="text-white text-xl">Loading images...</div>
+                    ) : error ? (
+                        <div className="text-red-400 text-xl">Error loading images</div>
+                    ) : (
+                        <div id='image-track' className="flex gap-2 absolute">
+                            {products.map((product: any, index: number) => (
+                                <div key={index} className="w-full overflow-hidden">
+                                    <img 
+                                        src={product.imageUrl} 
+                                        alt={product.name || `Product ${index + 1}`}
+                                        className="w-[50vw] h-[60vh] object-cover object-center"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
