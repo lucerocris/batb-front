@@ -10,8 +10,8 @@ export interface StoreOrderPayload {
   currency: string;
   customerNotes: string;
   shippingAddress: {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     addressLine1: string;
     addressLine2: string;
     city: string;

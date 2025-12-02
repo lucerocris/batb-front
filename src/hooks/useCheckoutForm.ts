@@ -10,8 +10,8 @@ interface CheckoutContactInfo {
 }
 
 export interface ShippingAddressValues {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   addressLine1: string;
   addressLine2: string;
   city: string;
@@ -85,8 +85,8 @@ const buildInitialValues = (
       email: '',
     },
     shippingAddress: {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       addressLine1: '',
       addressLine2: '',
       city: '',
@@ -210,13 +210,13 @@ export const useCheckoutForm = (
 
   const isCustomerInfoComplete = useMemo(() => {
     return (
-      values.shippingAddress.firstName.trim().length > 0 &&
-      values.shippingAddress.lastName.trim().length > 0 &&
+      values.shippingAddress.first_name.trim().length > 0 &&
+      values.shippingAddress.last_name.trim().length > 0 &&
       values.contact.email.trim().length > 0
     );
   }, [
-    values.shippingAddress.firstName,
-    values.shippingAddress.lastName,
+    values.shippingAddress.first_name,
+    values.shippingAddress.last_name,
     values.contact.email,
   ]);
 
