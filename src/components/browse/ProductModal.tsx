@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Product } from '../../types/product';
+import type { Product} from "@/types/product.ts";
 import { addToCart } from '@/services/cartService';
 
 interface ProductModalProps {
@@ -34,10 +34,15 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
         }
     };
 
-    const variantImages = product.productVariants.slice(0, 4);
-    const imagesToShow = variantImages.length > 0 
-        ? variantImages.map(v => v.imageUrl) 
-        : [product.imageUrl, product.imageUrl, product.imageUrl, product.imageUrl];
+    const variantArray = Array.isArray(product.productVariants) ? product.productVariants : [];
+    const variantImages = variantArray.slice(0, 4);
+    const fallbackImage = product.imageUrl || '';
+
+    const imagesToShow = variantImages.length > 0
+        ? variantImages.map(v => v?.imageUrl || fallbackImage)
+        : [fallbackImage, fallbackImage, fallbackImage, fallbackImage];
+
+    const firstVariantName = variantArray[0]?.name;
 
     const handleAddToCart = async () => {
         if (!product || isAdding) return;
@@ -102,7 +107,7 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                         <div className='flex flex-col w-3/4'>
                             <h1 className='text-4xl text-white font-bold leading-tight'>{product.name}</h1>
                             <p className='text-gray-300 font-light'>
-                                {product.productVariants[0]?.name || product.color || 'Standard'}
+                                {firstVariantName || product.color || 'Standard'}
                             </p>
                         </div>
                         <div className='flex h-full aspect-square ml-auto'>
