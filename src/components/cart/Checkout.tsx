@@ -196,8 +196,8 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                         <label className='font-semibold'> First Name</label>
                                         <input
                                             type="text"
-                                            value={values.shippingAddress.firstName}
-                                            onChange={(e) => updateShippingAddress('firstName', e.target.value)}
+                                            value={values.shippingAddress.first_name}
+                                            onChange={(e) => updateShippingAddress('first_name', e.target.value)}
                                             placeholder='John'
                                             className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                         />
@@ -206,8 +206,8 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                         <label className='font-semibold'> Last Name</label>
                                         <input
                                             type="text"
-                                            value={values.shippingAddress.lastName}
-                                            onChange={(e) => updateShippingAddress('lastName', e.target.value)}
+                                            value={values.shippingAddress.last_name}
+                                            onChange={(e) => updateShippingAddress('last_name', e.target.value)}
                                             placeholder='Doe'
                                             className='text-lg border-2 border-gray-300 rounded py-3 px-2 focus:outline-0'
                                         />
@@ -362,9 +362,9 @@ export default function Checkout({ checkoutForm, onPayment, onBack }: CheckoutPr
                                                 className='h-[8vh] aspect-square hover:scale-102 transition-all duration-300 overflow-hidden rounded'
                                             >
                                                 <img
-                                                    src="/assets/testimage.jpg?url"
+                                                    src={item.product.imageUrl}
                                                     className='w-full h-full object-top object-cover'
-                                                    alt={item.product.name}
+                                                    alt={item.product.imageUrl}
                                                 />
                                             </div>
                                         ))}

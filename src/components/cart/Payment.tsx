@@ -163,7 +163,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                 <div className="w-full h-3/5 flex flex-col items-center">
                   <h1 className="text-lg font-semibold mb-2">GCASH</h1>
                   <img
-                    src="/assets/payment_assets/QR-PAYMENT.jpg?url"
+                    src="/assets/payment_assets/QR-PAYMENT.jpg"
                     alt=""
                     className="w-3/4 aspect-square object-center object-cover -mt-2"
                   />
@@ -176,7 +176,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                   <div className="flex flex-col h-full w-full gap-2">
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/payment_assets/BPI.svg?url"
+                        src="/assets/payment_assets/BPI.svg"
                         alt=""
                         className="h-[3vh] w-[6vh] object-cover"
                       />
@@ -184,7 +184,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/payment_assets/PayPal.svg?url"
+                        src="/assets/payment_assets/PayPal.svg"
                         alt=""
                         className="h-[3vh] object-cover"
                       />
@@ -192,7 +192,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
                     </div>
                     <div className="flex w-full justify-between items-center px-2">
                       <img
-                        src="/assets/payment_assets/BDO.svg?url"
+                        src="/assets/payment_assets/BDO.svg"
                         alt=""
                         className="h-[3vh] w-[8.7vh] object-cover"
                       />

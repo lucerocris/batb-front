@@ -73,9 +73,9 @@ export default function BrowseSection() {
                         It's as simple as that.
                     </p>
                 </div>
-                <div className='content-here w-full h-full flex items-center justify-center border-2 relative'>
+                <div className='content-here w-full h-full flex items-center justify-center  relative'>
                     {/* How It Works Instructions */}
-                    <div className="relative w-1/2 h-full flex flex-col justify-center px-10 ml-1 border-2 right-20 select-none">
+                    <div className="relative w-1/2 h-full flex flex-col justify-center px-10 ml-1  right-20 select-none">
                         <h2 className="text-4xl font-bold text-white mb-8 select-none">
                             HOW IT WORKS
                         </h2>
@@ -135,7 +135,7 @@ export default function BrowseSection() {
                             </p>
                         </div>
                     </div>
-                    <div className='w-1/4 h-full flex items-center justify-center overflow-hidden relative border-2 min-h-[60vh]'>
+                    <div className='w-1/4 h-full flex items-center justify-center overflow-hidden relative  min-h-[60vh]'>
                         {loading ? (
                             <div className="text-white text-2xl">LOADING</div>
                         ) : error ? (
@@ -146,7 +146,7 @@ export default function BrowseSection() {
                                 {products.map((product: any, index: number) => (
                                     <div
                                     key={index}
-                                    className="w-[25vw] h-[60vh] overflow-hidden flex-shrink-0 border-2"
+                                    className="w-[25vw] h-[60vh] overflow-hidden flex-shrink-0 "
                                     >
                                     <img
                                         src={product.imageUrl}
