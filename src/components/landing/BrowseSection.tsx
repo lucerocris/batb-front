@@ -1,165 +1,165 @@
+import { useEffect, useRef } from 'react';
 import Header from '../HeaderStatic';
 import { useProducts } from '@/hooks/useProducts';
-import { useEffect } from 'react';
 
 export default function BrowseSection() {
     const { products = [], loading, error } = useProducts();
+    const trackRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        const track = trackRef.current;
+        if (!track) return;
+
         const handleMouseDown = (e: MouseEvent) => {
-            const track = document.getElementById("image-track") as HTMLElement | null;
-            if (track) track.dataset.mouseDownAt = e.clientX.toString();
+            track.dataset.mouseDownAt = e.clientY.toString();
         };
 
         const handleMouseUp = () => {
-            const track = document.getElementById("image-track") as HTMLElement | null;
-            if (!track) return;
             track.dataset.mouseDownAt = "0";
-            track.dataset.prevPercentage = track.dataset.percentage || "0";
+            track.dataset.prevPercentage = track.dataset.percentage || "-50";
         };
 
         const handleMouseMove = (e: MouseEvent) => {
-            const track = document.getElementById("image-track") as HTMLElement | null;
-            const mouseDownAt = track?.dataset.mouseDownAt;
-            // Only act when mouse is pressed (mouseDownAt is set)
-            if (!mouseDownAt || mouseDownAt === "0") return;
+            if (track.dataset.mouseDownAt === "0") return;
 
-            const mouseDelta = parseFloat(mouseDownAt) - e.clientX;
-            const maxDelta = window.innerWidth / 2;
+            const mouseDelta = parseFloat(track.dataset.mouseDownAt!) - e.clientY;
+            const maxDelta = window.innerHeight / 2;
+
             const percentage = (mouseDelta / maxDelta) * -100;
-            const prevPercentage = parseFloat(track.dataset.prevPercentage || "0");
-            const nextPercentageUnclamped = prevPercentage + percentage;
-            const nextPercentage = Math.max(-85, Math.min(nextPercentageUnclamped, -5));
+            const nextPercentageUnclamped = parseFloat(track.dataset.prevPercentage || "-50") + percentage;
+            const nextPercentage = Math.max(-95, Math.min(nextPercentageUnclamped, -5));
 
-            track.dataset.percentage = String(nextPercentage);
+            track.dataset.percentage = nextPercentage.toString();
 
+            // ANIMATION FIX: Using .animate() creates the smooth inertia effect
+            // The fill: "forwards" ensures it stays at the end position
             track.animate({
-                transform: `translate(0, ${nextPercentage}%)`
+                transform: `translate(-50%, ${nextPercentage}%)`
             }, { duration: 300, fill: "forwards" });
 
+            // PARALLAX FIX:
+            // To make the image look "steady" (fixed in space), we invert the percentage 1:1.
+            // As the track moves UP (-5 to -95), the image pans DOWN (5 to 95) inside the frame.
             for(const image of track.getElementsByClassName("image")) {
                 image.animate({
-                    objectPosition: `50% -${nextPercentage*2.2}%`
-                }, { duration: 200, fill: "forwards" });
-
+                    objectPosition: `50% ${-nextPercentage}%`
+                }, { duration: 1200, fill: "forwards" });
             }
-            // use `percentage` to update the UI (e.g. transform the track) as needed
         };
 
+        // Attach to window so dragging works even if mouse leaves the element
         window.addEventListener('mousedown', handleMouseDown);
-        window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
             window.removeEventListener('mousedown', handleMouseDown);
-            window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('mousemove', handleMouseMove);
         };
-    }, []);
-
+    }, [products]); // Re-run if products change
 
     return (
-        <div className='relative w-full h-[100vh] flex flex-col items-center pb-10'
-            style={{ backgroundImage: `url('../../../public/assets/patterns.png')`, backgroundRepeat: 'repeat', backgroundPosition: 'center', backgroundSize: '160px' }}>
-            <div className='w-full h-full bg-black opacity-85 absolute pointer-events-none'></div>
-            <div className='w-full h-full relative py-20'>
+        <div className='relative w-full h-[100vh] flex flex-col overflow-hidden bg-zinc-900 select-none'
+             style={{ 
+                 backgroundImage: `radial-gradient(circle at center, #2a2a2a 1px, transparent 1px), radial-gradient(circle at center, #1a1a1a 1px, transparent 1px)`,
+                 backgroundSize: '40px 40px',
+                 backgroundPosition: '0 0, 20px 20px',
+                 backgroundColor: '#111' 
+             }}>
+            
+            {/* Dark Overlay */}
+            <div className='absolute inset-0 bg-black opacity-80 pointer-events-none z-0'></div>
+
+            {/* Main Content Wrapper */}
+            <div className='relative z-10 w-full h-full flex flex-col'>
+                
                 <Header color="white"/>
-                <div className='w-full h-auto flex items-center px-7 py-5'>
-                    <h1 className='text-7xl text-white font-bold select-none'>
-                        BROWSE
-                    </h1>
-                    <p className='text-2xl font-extralight ml-auto select-none'
-                    style={{color: 'rgb(232, 204, 72)'}}>
-                        It's as simple as that.
-                    </p>
+
+                {/* Header Content Area */}
+                <div className='flex-shrink-0 mt-16 px-10 py-2'>
+                    <div className='w-full flex items-center'>
+                        <h1 className='text-6xl md:text-7xl text-white font-bold select-none tracking-tighter'>
+                            BROWSE
+                        </h1>
+                        <p className='hidden md:block text-xl font-light ml-auto select-none italic'
+                           style={{color: 'rgb(232, 204, 72)'}}>
+                            It's as simple as that.
+                        </p>
+                    </div>
                 </div>
-                <div className='content-here w-full h-full flex items-center justify-center  relative'>
-                    {/* How It Works Instructions */}
-                    <div className="relative w-1/2 h-full flex flex-col justify-center px-10 ml-1  right-20 select-none">
-                        <h2 className="text-4xl font-bold text-white mb-8 select-none">
+
+                {/* Split Content Area */}
+                <div className='flex-1 w-full flex flex-row overflow-hidden mt-8 max-h-[calc(100vh-200px)]'>
+
+                    {/* Adjusted padding to standard pl-28 (7rem) which is close to your requested 27 */}
+                    <div className="w-1/2 h-full flex flex-col justify-start pt-10 pl-28 pr-8 select-none overflow-y-auto">
+                        <h2 className="text-4xl font-extralight text-white mb-10 select-none tracking-wide">
                             HOW IT WORKS
                         </h2>
-                        <div className="space-y-6">
-                            <div className="flex items-start">
-                                <div className="text-yellow-500 font-bold text-xl rounded-full w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0">
-                                    1
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-semibold text-white mb-2">BROWSE COLLECTION</h3>
-                                    <p className="text-gray-300 text-lg leading-relaxed">
-                                        Explore our curated selection of authentic mall pullouts from premium brands.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="flex items-start">
-                                <div className="text-yellow-500 font-bold text-xl rounded-full w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0">
-                                    2
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-semibold text-white mb-2">ADD TO CART</h3>
-                                    <p className="text-gray-300 text-lg leading-relaxed">
-                                        Select your desired items and add them to your shopping cart with ease.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="flex items-start">
-                                <div className="text-yellow-500 font-bold text-xl rounded-full w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0">
-                                    3
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-semibold text-white mb-2">CHECKOUT & PAY</h3>
-                                    <p className="text-gray-300 text-lg leading-relaxed">
-                                        Complete your order with secure payment options and provide delivery details.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div className="flex items-start">
-                                <div className="text-yellow-500 font-bold text-xl w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0">
-                                    4
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-semibold text-white mb-2">FAST DELIVERY</h3>
-                                    <p className="text-gray-300 text-lg leading-relaxed">
-                                        Receive your premium fashion pieces delivered straight to your doorstep.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                         
-                        <div className="mt-8 p-4 bg-yellow-500 bg-opacity-20 rounded-lg border border-yellow-500">
-                            <p className="text-white text-center font-medium">
-                                ✨ All items are authentic mall pullouts at unbeatable prices ✨
-                            </p>
+                        <div className="space-y-4">
+                            {[
+                                { num: 1, title: "BROWSE COLLECTION", desc: "Explore our curated selection of authentic mall pullouts from premium brands." },
+                                { num: 2, title: "ADD TO CART", desc: "Select your desired items and add them to your shopping cart with ease." },
+                                { num: 3, title: "CHECKOUT & PAY", desc: "Complete your order with secure payment options and provide delivery details." },
+                                { num: 4, title: "FAST DELIVERY", desc: "Receive your premium fashion pieces delivered straight to your doorstep." }
+                            ].map((step, idx) => (
+                                <div key={idx} className="flex items-start group cursor-default">
+                                    <div className="text-yellow-500 font-bold text-xl rounded-full border border-yellow-500/30 w-10 h-10 flex items-center justify-center mr-6 flex-shrink-0 group-hover:bg-yellow-500 group-hover:text-black transition-colors duration-300">
+                                        {step.num}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-white mb-1 group-hover:text-yellow-400 transition-colors">{step.title}</h3>
+                                        <p className="text-gray-400 text-base leading-relaxed max-w-md">
+                                            {step.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                    <div className='w-1/4 h-full flex items-center justify-center overflow-hidden relative  min-h-[60vh]'>
+
+                    {/* RIGHT SIDE: Vertical Carousel (50% Width) */}
+                    <div className='w-1/2 h-full relative overflow-hidden bg-black/20'>
                         {loading ? (
-                            <div className="text-white text-2xl">LOADING</div>
+                            <div className="w-full h-full flex items-center justify-center text-white text-xl tracking-widest animate-pulse">
+                                LOADING COLLECTION...
+                            </div>
                         ) : error ? (
-                            <div className="text-red-400 text-5xl">ERROR LOADING IMAGES</div>
+                            <div className="w-full h-full flex items-center justify-center text-red-400">
+                                UNABLE TO LOAD IMAGES
+                            </div>
                         ) : (
-                            <div id='image-track' className="flex flex-col gap-5 absolute left-0 top-1/2 select-none w-full" 
-                            data-mouse-down-at="0" data-prev-percentage="0" style={{ transform: 'translate(0%, 0%)' }}>
+                            // CAROUSEL TRACK
+                            <div 
+                                ref={trackRef}
+                                id='image-track' 
+                                className="w-3/4 flex flex-col gap-8 absolute left-1/2 top-1/2 will-change-transform cursor-grab active:cursor-grabbing" 
+                                data-mouse-down-at="0" 
+                                data-prev-percentage="-50" 
+                                style={{ transform: 'translate(-50%, -50%)' }}
+                            >
                                 {products.map((product: any, index: number) => (
                                     <div
-                                    key={index}
-                                    className="w-[25vw] h-[60vh] overflow-hidden flex-shrink-0 "
+                                        key={index}
+                                        className="relative w-full h-[50vh] overflow-hidden rounded-sm shadow-2xl flex-shrink-0 bg-zinc-800 group"
                                     >
-                                    <img
-                                        src={product.imageUrl}
-                                        alt={product.name || `Product ${index + 1}`}
-                                        draggable="false"
-                                        className="image w-full h-full object-cover scale-150 select-none"
-                                    />
+                                        <img
+                                            src={product.imageUrl}
+                                            alt={product.name || `Product ${index + 1}`}
+                                            draggable="false"
+                                            className="image w-full h-full object-cover scale-150 select-none grayscale group-hover:grayscale-0 transition-all duration-500"
+                                            style={{ objectPosition: "50% 50%" }}
+                                        />
+                                        <div className="absolute bottom-4 left-4 text-white font-bold text-4xl drop-shadow-md z-10 opacity-60 group-hover:opacity-100 group-hover:text-yellow-400 transition-all duration-300">
+                                            {product.name || "BRAND"}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
                         )}
                     </div>
-                        
 
                 </div>
             </div>

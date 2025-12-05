@@ -111,8 +111,13 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                             </p>
                         </div>
                         <div className='flex h-full aspect-square ml-auto'>
-                            <div className='h-20 w-auto text-white text-xs flex items-center justify-center'>
-                                {product.category.name}
+                            <div className='h-20 aspect-square w-auto text-white text-xs flex items-center justify-center p-2'>
+                                <img 
+                                    src={`/assets/brandlogos/${product.brand?.toUpperCase()}.svg`} 
+                                    alt={product.brand} 
+                                    className='object-contain w-full h-full hover:scale-120 transition-transform duration-300'
+                                    style={{ filter: 'drop-shadow(0 0 0 white) drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white)' }}
+                                />
                             </div>
                         </div>
                     </div>
