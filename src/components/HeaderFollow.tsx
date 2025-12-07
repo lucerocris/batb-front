@@ -45,7 +45,7 @@ export default function Header() {
             }}
         >
             <div>
-                <img src="/assets/BATBwhite.svg" alt="Logo" className="h-[3vh] ml-5" />
+                <img src="/assets/BATBwhite.svg" alt="Logo" className="h-[3vh] ml-5" draggable='false'/>
             </div>
             <Sheet>
                 <SheetTrigger asChild>

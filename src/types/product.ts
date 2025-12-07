@@ -49,6 +49,7 @@ export interface Product {
     type: string;
     brand: string;
     imageUrl: string;
+    imageGallery?: string[];
     isActive: boolean;
     isFeatured: boolean;
     availableFrom: string;

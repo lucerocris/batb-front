@@ -78,7 +78,7 @@ export default function Landing() {
     }, []);
 
     return (
-        <div ref={containerRef} className="overflow-hidden">
+        <div ref={containerRef} className="overflow-hidden select-none">
             <div 
                 ref={(el) => { if (el) sectionsRef.current[0] = el; }}
                 className="h-screen"

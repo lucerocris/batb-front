@@ -12,6 +12,8 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
     const [isVisible, setIsVisible] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string>('');
+    const [imageLoading, setImageLoading] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -23,7 +25,10 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
 
     useEffect(() => {
         setFeedback(null);
-    }, [product?.id, isOpen]);
+        if (product) {
+            setSelectedImage(product.imageUrl);
+        }
+    }, [product?.id, isOpen, product]);
 
     if (!isOpen || !product) return null;
 
@@ -34,14 +39,18 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
         }
     };
 
+    // Combine main image and gallery
+    const allImages = [
+        product.imageUrl,
+        ...(Array.isArray(product.imageGallery) ? product.imageGallery : [])
+    ].filter(Boolean);
+
+    // Get unique images for gallery display
+    const uniqueGalleryImages = Array.isArray(product.imageGallery) && product.imageGallery.length > 0
+        ? product.imageGallery.slice(0, 4)
+        : [product.imageUrl];
+
     const variantArray = Array.isArray(product.productVariants) ? product.productVariants : [];
-    const variantImages = variantArray.slice(0, 4);
-    const fallbackImage = product.imageUrl || '';
-
-    const imagesToShow = variantImages.length > 0
-        ? variantImages.map(v => v?.imageUrl || fallbackImage)
-        : [fallbackImage, fallbackImage, fallbackImage, fallbackImage];
-
     const firstVariantName = variantArray[0]?.name;
 
     const handleAddToCart = async () => {
@@ -70,7 +79,7 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
 
     return (
         <div 
-            className={`fixed inset-0 w-full h-screen flex items-center justify-center z-50 transition-opacity duration-300 ${
+            className={`fixed inset-0 w-full h-screen flex items-center justify-center z-50 transition-opacity duration-300 select-auto${
                 isVisible ? 'opacity-100 backdrop-blur-sm' : 'opacity-0'
             }`}
             onClick={handleBackdropClick}
@@ -81,21 +90,32 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                 <div className='absolute inset-0 bg-black opacity-90'></div>    
                 <div className='relative h-full w-2/5 flex flex-col'> 
                     <img 
-                        src={product.imageUrl} 
+                        src={selectedImage} 
                         alt={product.name} 
-                        className='w-full h-4/5 object-cover object-top'
+                        className={`w-full h-4/5 object-cover object-top transition-opacity duration-150 ${
+                            imageLoading ? 'opacity-0' : 'opacity-100'
+                        }`}
                     />
                     
                     <div className='mt-auto grid grid-cols-4 gap-1 p-1'>
-                        {imagesToShow.map((image, index) => (
+                        {uniqueGalleryImages.map((image, index) => (
                             <div 
                                 key={index}
-                                className='aspect-square flex items-center justify-center overflow-hidden
-                                hover:scale-105 transition-transform duration-300 cursor-pointer'
+                                onMouseEnter={() => {
+                                    setImageLoading(true);
+                                    setTimeout(() => {
+                                        setSelectedImage(image);
+                                        setTimeout(() => setImageLoading(false), 50);
+                                    }, 150);
+                                }}
+                                className={`aspect-square flex items-center justify-center overflow-hidden
+                                hover:scale-105 transition-transform duration-300 cursor-pointer border-2 ${
+                                    selectedImage === image ? 'border-white' : 'border-transparent'
+                                }`}
                             >
                                 <img 
                                     src={image} 
-                                    alt={`${product.name} variant ${index + 1}`}
+                                    alt={`${product.name} view ${index + 1}`}
                                     className='w-full h-full object-cover'
                                 />
                             </div>
@@ -144,11 +164,11 @@ export default function ProductModal({ isOpen, onClose, product }: ProductModalP
                     </div>
                     <div className='w-full flex mt-auto items-center'>
                         <h1 className='text-white font-bold text-4xl'>
-                            ₱{product.salePrice || product.basePrice}
+                            ₱{product.salePrice || product.basePrice}.00
                         </h1>
                         {product.salePrice && (
                             <span className='text-gray-400 line-through ml-3 text-xl'>
-                                ₱{product.basePrice}
+                                ₱{product.basePrice}.00
                             </span>
                         )}
                         <div className='flex w-1/2 ml-auto flex-col items-end'>

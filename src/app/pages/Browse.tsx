@@ -49,7 +49,7 @@ export default function Browse(){
 
     return (
         <>
-            <div className='w-full h-[35vh] flex flex-col bg-black'
+            <div className='w-full h-[35vh] flex flex-col bg-black select-none'
                 style={{
                     backgroundImage: `url('/assets/patterns.png')`,
                     backgroundSize: '150px',

@@ -44,7 +44,7 @@ export default function ContactUs() {
   return (
     <>
       <div
-        className="w-full h-[35vh] flex flex-col bg-black"
+        className="w-full h-[35vh] flex flex-col bg-black select-none" 
         style={{
           backgroundImage: `url('/assets/storefront_assets/patterns.png')`,
           backgroundSize: '150px',

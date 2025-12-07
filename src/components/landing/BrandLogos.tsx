@@ -14,6 +14,9 @@ const brandLogos: BrandLogo[] = [
     { src: "/assets/brandlogos/TH.svg", alt: "TH" },
     { src: "/assets/brandlogos/NBA.svg", alt: "NBA" },
     { src: "/assets/brandlogos/NEXT.svg", alt: "NEXT" },
+    { src: "/assets/brandlogos/BERSHKA.svg", alt: "BERSHKA" },
+    { src: "/assets/brandlogos/BAPE.svg", alt: "BAPE" },
+    { src: "/assets/brandlogos/COTTON ON.svg", alt: "COTTON ON" },
 ];
 
 export default function BrandLogos() {
@@ -29,6 +32,7 @@ export default function BrandLogos() {
                             src={logo.src}
                             alt={logo.alt}
                             className="h-3/4 w-auto object-contain "
+                            draggable='false'
                             style={{
                                 maxWidth: '250px',
                                 filter: 'grayscale(100%)',
