@@ -4,6 +4,7 @@ import Header from '@/components/HeaderFollow';
 import Lenis from 'lenis';
 import ItemContainer from '../../components/browse/ItemContainer';
 import ProductModal from '../../components/browse/ProductModal';
+import type {Product} from "@/types/product.ts";
 
 export default function Browse(){
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +39,11 @@ export default function Browse(){
         );
     }
 
-    if(error) {
+    const visibleProducts = products.filter(
+        (p: Product) => p.isActive === true && p.stockStatus === 'available'
+    );
+
+    if (error) {
         return (
             <div className="w-full h-screen flex items-center justify-center flex-col">
                 <p className="text-xl text-red-500">Error: {error}</p>
@@ -75,7 +80,7 @@ export default function Browse(){
                 <h2 className='text-4xl font-bold mb-4'>Browse Our Collection</h2>
                 <p className='text-lg text-gray-600 mb-8'>Dont miss these great deals.</p>
                 <div className='h-auto grid grid-cols-5 gap-10'>
-                    {products.map((product) => (
+                    {visibleProducts.map((product) => (
                         <ItemContainer 
                             key={product.id}
                             product={product}
