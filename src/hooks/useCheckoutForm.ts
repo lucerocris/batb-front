@@ -26,7 +26,7 @@ export interface ShippingAddressValues {
 interface PaymentValues {
   channel: PaymentChannel;
   method: PaymentMethod;
-  reference: string;
+  paymentReference: string;
   sentAt: string;
   proof: File | null;
 }
@@ -54,7 +54,7 @@ export interface UseCheckoutFormReturn {
     field: keyof ShippingAddressValues,
     value: string
   ) => void;
-  updatePayment: (field: 'reference' | 'sentAt', value: string) => void;
+  updatePayment: (field: 'paymentReference' | 'sentAt', value: string) => void;
   setPaymentChannel: (channel: PaymentChannel) => void;
   setPaymentProof: (file: File | null) => void;
   setCustomerNotes: (notes: string) => void;
@@ -100,7 +100,7 @@ const buildInitialValues = (
     payment: {
       channel: 'gcash',
       method: 'gcash',
-      reference: '',
+      paymentReference: '',
       sentAt: new Date().toISOString().slice(0, 10),
       proof: null,
     },
@@ -164,7 +164,7 @@ export const useCheckoutForm = (
   );
 
   const updatePayment = useCallback(
-    (field: 'reference' | 'sentAt', value: string) => {
+    (field: 'paymentReference' | 'sentAt', value: string) => {
       setValues((prev) => ({
         ...prev,
         payment: {
@@ -236,7 +236,7 @@ export const useCheckoutForm = (
   const isPaymentReady = useMemo(() => {
     const payment = values.payment;
     return (
-      payment.reference.trim().length > 0 &&
+      payment.paymentReference.trim().length > 0 &&
       payment.sentAt.trim().length > 0 &&
       payment.proof !== null
     );
@@ -276,7 +276,7 @@ export const useCheckoutForm = (
       return {
         userId: null,
         paymentMethod: values.payment.method,
-        paymentReference: values.payment.reference,
+        paymentReference: values.payment.paymentReference,
         paymentSentDate: values.payment.sentAt,
         image: values.payment.proof,
         email: values.contact.email,

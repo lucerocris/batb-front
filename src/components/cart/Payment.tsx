@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCart } from '@/hooks/useCart';
 import type { UseCheckoutFormReturn } from '@/hooks/useCheckoutForm';
 import { submitOrder } from '@/services/orderService';
+import {clearCart} from "@/services/cartService.ts";
 
 const currencyFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -88,6 +89,7 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
           'Order submitted successfully! Check your email for confirmation.'
       );
       resetForm();
+      await clearCart();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Failed to submit order.';
@@ -104,8 +106,8 @@ export default function Payment({ checkoutForm, onBack }: PaymentProps) {
         <input
           type="text"
           placeholder={placeholder}
-          value={values.payment.reference}
-          onChange={(e) => updatePayment('reference', e.target.value)}
+          value={values.payment.paymentReference}
+          onChange={(e) => updatePayment('paymentReference', e.target.value)}
           className="w-full border border-gray-300 p-2 text-sm"
         />
       </div>
